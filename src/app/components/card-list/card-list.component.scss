@@ -1,0 +1,19 @@
+mat-card {
+    margin: 20px;
+    width: 200px;
+    justify-content: center;
+}
+
+mat-card-header {
+    justify-content: center;
+}
+
+p {
+    text-align: center;
+}
+
+.center-aligned-container {
+    display: flex;
+    flex: 1 1 100%;
+    justify-content: center;
+}

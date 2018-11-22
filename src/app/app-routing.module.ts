@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from 'src/app/components/home/home.component';
+import { AboutComponent } from 'src/app/components/about/about.component';
+import { MineSweeperComponent } from 'src/app/components/mine-sweeper/mine-sweeper.component';
 
 const routes: Routes = [
   {
@@ -9,24 +11,21 @@ const routes: Routes = [
 
   },
   {
+    path: "home",
+    component: HomeComponent
+  },
+  {
+    path: "about",
+    component: AboutComponent
+  },
+  {
+    path: "minesweeper",
+    component: MineSweeperComponent
+  },
+  {
     path: "**",
     redirectTo: '/'
-  }/* ,
-  {
-      path: "about",
-      component: AboutComponent
-  },
-  {
-      path: 'courses/:id',
-      component: CourseComponent,
-      resolve: {
-          course: CourseResolver
-      }
-  },
-  {
-      path: "**",
-      redirectTo: '/'
-  } */
+  }
 ];
 
 @NgModule({

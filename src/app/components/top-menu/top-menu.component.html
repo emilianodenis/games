@@ -1,0 +1,18 @@
+<button mat-icon-button [matMenuTriggerFor]="menu">
+  <mat-icon>menu</mat-icon>
+</button>
+
+<mat-menu #menu>
+  <button mat-menu-item routerLink="/">
+    <mat-icon>home</mat-icon>
+    <span>home</span>
+  </button>
+  <button mat-menu-item routerLink="about">
+    <mat-icon>question_answer</mat-icon>
+    <span>about</span>
+  </button>
+  <button mat-menu-item routerLink="minesweeper">
+    <mat-icon>whatshot</mat-icon>
+    <span>minesweeper</span>
+  </button>
+</mat-menu>

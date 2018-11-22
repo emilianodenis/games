@@ -1,0 +1,26 @@
+<mat-card *ngFor="let card of cards" class="mat-elevation-z10">
+
+  <mat-card-header>
+    <mat-card-title>{{card.name}}</mat-card-title>
+  </mat-card-header>
+
+  <div class="center-aligned-container">
+    <img mat-card-image [src]="card.imageUrl" style="height: 50px; width:50px; margin-top: 0px;">
+  </div>
+
+  <mat-card-content>
+    <p>{{card.description}}</p>
+  </mat-card-content>
+
+  <mat-card-actions>
+
+    <div class="center-aligned-container">
+      <button mat-raised-button>
+        Tester
+      </button>
+    </div>
+
+
+  </mat-card-actions>
+
+</mat-card>
