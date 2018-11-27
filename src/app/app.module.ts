@@ -12,6 +12,8 @@ import { HomeComponent } from 'src/app/components/home/home.component';
 import { MineSweeperComponent } from 'src/app/components/mine-sweeper/mine-sweeper.component';
 import { TopMenuComponent } from 'src/app/components/top-menu/top-menu.component';
 import { CardListComponent } from './components/card-list/card-list.component';
+import { GreekLetterService } from 'src/app/service/greek-letter.service';
+import { CardPageComponent } from './components/card-page/card-page.component';
 
 
 
@@ -22,7 +24,8 @@ import { CardListComponent } from './components/card-list/card-list.component';
     AboutComponent,
     MineSweeperComponent,
     TopMenuComponent,
-    CardListComponent
+    CardListComponent,
+    CardPageComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +41,7 @@ import { CardListComponent } from './components/card-list/card-list.component';
     MatTabsModule,
     MatToolbarModule
   ],
-  providers: [],
+  providers: [GreekLetterService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -4,15 +4,19 @@
 
     <mat-nav-list>
 
-      <a mat-list-item routerLink="/">
+      <a mat-list-item routerLink="/" (click)="navList.close()">
         <mat-icon>home</mat-icon>
         <span>home</span>
       </a>
-      <a mat-list-item routerLink="about">
+      <a mat-list-item routerLink="card" (click)="navList.close()">
+        <mat-icon>sim_card</mat-icon>
+        <span>cards</span>
+      </a>
+      <a mat-list-item routerLink="about" (click)="navList.close()">
         <mat-icon>question_answer</mat-icon>
         <span>about</span>
       </a>
-      <a mat-list-item routerLink="minesweeper">
+      <a mat-list-item routerLink="minesweeper" (click)="navList.close()">
         <mat-icon>whatshot</mat-icon>
         <span>minesweeper</span>
       </a>
@@ -25,7 +29,7 @@
 
   <mat-toolbar #toolbar color="primary" style="flex: 0 0 auto;">
     <div #tbHeight style="visibility: hidden; height: 100%;"></div>
-    <button mat-icon-button (click)="navList.toggle()">
+    <button mat-icon-button (click)="navList.open()">
       <mat-icon>menu</mat-icon>
     </button>
   </mat-toolbar>
@@ -35,5 +39,3 @@
   </div>
 
 </mat-sidenav-container>
-<!-- <ed-top-menu></ed-top-menu>
-<router-outlet></router-outlet> -->

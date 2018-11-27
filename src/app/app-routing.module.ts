@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { HomeComponent } from 'src/app/components/home/home.component';
+import { RouterModule, Routes } from '@angular/router';
 import { AboutComponent } from 'src/app/components/about/about.component';
+import { CardPageComponent } from 'src/app/components/card-page/card-page.component';
+import { HomeComponent } from 'src/app/components/home/home.component';
 import { MineSweeperComponent } from 'src/app/components/mine-sweeper/mine-sweeper.component';
 
 const routes: Routes = [
@@ -9,6 +10,10 @@ const routes: Routes = [
     path: "",
     component: HomeComponent
 
+  },
+  {
+    path: "card",
+    component: CardPageComponent
   },
   {
     path: "home",
