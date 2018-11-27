@@ -1,4 +1,5 @@
-export interface ICardTest {
+export interface ILetter {
+  id: number;
   name: string;
   description: string;
   imageUrl: string;

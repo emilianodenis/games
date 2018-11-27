@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { MatListModule, MatMenuModule, MatSidenavModule, MatToolbarModule, MatTabsModule, MatCardModule } from "@angular/material";
+import { MatCardModule, MatListModule, MatMenuModule, MatSidenavModule, MatTableModule, MatTabsModule, MatToolbarModule } from "@angular/material";
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
@@ -11,9 +11,10 @@ import { AboutComponent } from 'src/app/components/about/about.component';
 import { HomeComponent } from 'src/app/components/home/home.component';
 import { MineSweeperComponent } from 'src/app/components/mine-sweeper/mine-sweeper.component';
 import { TopMenuComponent } from 'src/app/components/top-menu/top-menu.component';
-import { CardListComponent } from './components/card-list/card-list.component';
 import { GreekLetterService } from 'src/app/service/greek-letter.service';
+import { CardListComponent } from './components/card-list/card-list.component';
 import { CardPageComponent } from './components/card-page/card-page.component';
+import { TablePageComponent } from './components/table-page/table-page.component';
 
 
 
@@ -25,7 +26,8 @@ import { CardPageComponent } from './components/card-page/card-page.component';
     MineSweeperComponent,
     TopMenuComponent,
     CardListComponent,
-    CardPageComponent
+    CardPageComponent,
+    TablePageComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +41,8 @@ import { CardPageComponent } from './components/card-page/card-page.component';
     MatListModule,
     MatIconModule,
     MatTabsModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatTableModule
   ],
   providers: [GreekLetterService],
   bootstrap: [AppComponent]

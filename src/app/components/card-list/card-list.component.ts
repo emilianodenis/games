@@ -1,19 +1,22 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { ICardTest } from 'src/app/model/iCardTest';
+import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { ILetter } from 'src/app/model/iLetter';
 
 @Component({
   selector: 'ed-card-list',
   templateUrl: './card-list.component.html',
-  styleUrls: ['./card-list.component.scss']
+  styleUrls: ['./card-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CardListComponent implements OnInit {
 
   @Input()
-  public cards: ICardTest[];
+  public letters: ILetter[];
 
   constructor() { }
 
   ngOnInit() {
   }
+
+
 
 }

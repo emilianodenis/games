@@ -1,6 +1,7 @@
-import { ICardTest } from "src/app/model/iCardTest";
+import { ILetter } from "src/app/model/iLetter";
 
-export class GreekLetter implements ICardTest {
+export class GreekLetter implements ILetter {
+    id: number;
     name: string;
     description: string;
     imageUrl: string;
