@@ -11,7 +11,7 @@ export class GreekLetterService {
         id: 1,
         name: "alpha",
         description: "Le A grec",
-        imageUrl: "https://cdn1.iconfinder.com/data/icons/ringtone-music-instruments/512/sigma-symbol-greek-alphabet-letter-3-512.png",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Alpha_uc_lc.svg/langfr-125px-Alpha_uc_lc.svg.png",
         type: "base"
     };
 
@@ -19,7 +19,7 @@ export class GreekLetterService {
         id: 2,
         name: "beta",
         description: "Pas vraiment brillant",
-        imageUrl: "https://png.pngtree.com/svg/20170622/beta_66473.png",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Beta_uc_lc.svg/langfr-125px-Beta_uc_lc.svg.png",
         type: "alt"
     };
 
@@ -27,7 +27,7 @@ export class GreekLetterService {
         id: 3,
         name: "gamma",
         description: "C'est comme le G",
-        imageUrl: "https://cdn1.iconfinder.com/data/icons/electricity-and-functional-elements/512/gamma-symbol-letter-greek-alphabet-512.png",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Gamma_uc_lc.svg/langfr-125px-Gamma_uc_lc.svg.png",
         type: "base"
     };
 
@@ -35,7 +35,7 @@ export class GreekLetterService {
         id: 4,
         name: "delta",
         description: "C'est un triangle",
-        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/2/27/Greek_uc_delta.png",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Delta_uc_lc.svg/langfr-125px-Delta_uc_lc.svg.png",
         type: "alt"
     };
 
@@ -43,7 +43,7 @@ export class GreekLetterService {
         id: 5,
         name: "epsilon",
         description: "Euhhhhhh",
-        imageUrl: "https://banner2.kisspng.com/20180406/ukq/kisspng-epsilon-greek-alphabet-koppa-letter-string-5ac76f2bda5d76.1915839615230195638944.jpg",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Epsilon_uc_lc.svg/langfr-125px-Epsilon_uc_lc.svg.png",
         type: "base"
     };
 
@@ -51,7 +51,7 @@ export class GreekLetterService {
         id: 9,
         name: "Iota",
         description: "Très petit i",
-        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Iota_uc_lc.svg/1200px-Iota_uc_lc.svg.png",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Iota_uc_lc.svg/langfr-125px-Iota_uc_lc.svg.png",
         type: "alt"
     };
 
@@ -59,7 +59,7 @@ export class GreekLetterService {
         id: 15,
         name: "Omicron",
         description: "premiere description",
-        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Omicron_uc_lc.svg/1200px-Omicron_uc_lc.svg.png",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Omicron_uc_lc.svg/langfr-125px-Omicron_uc_lc.svg.png",
         type: "base"
     };
 
@@ -67,7 +67,7 @@ export class GreekLetterService {
         id: 20,
         name: "Upsilon",
         description: "20e lettre de l'alphabet grec, précédée par tau et suivie par phi.",
-        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Upsilon_uc_lc.svg/langfr-1920px-Upsilon_uc_lc.svg.png",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Upsilon_uc_lc.svg/langfr-125px-Upsilon_uc_lc.svg.png",
         type: "alt"
     };
 
@@ -75,7 +75,7 @@ export class GreekLetterService {
         id: 24,
         name: "Omega",
         description: "On dit que c'est le plus grand",
-        imageUrl: "https://cdn0.iconfinder.com/data/icons/mathematics-geometry/512/omega-greek-alphabet-letter-512.png",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Omega_uc_lc.svg/langfr-125px-Omega_uc_lc.svg.png",
         type: "base"
     };
 

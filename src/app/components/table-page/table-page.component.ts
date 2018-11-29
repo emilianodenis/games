@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/internal/Observable';
+import { MatDialog, MatTableDataSource, MatDialogConfig } from '@angular/material';
+import { EditLetterComponent } from 'src/app/components/edit-letter/edit-letter.component';
 import { ILetter } from 'src/app/model/iLetter';
 import { GreekLetterService } from 'src/app/service/greek-letter.service';
-import { MatTableDataSource } from '@angular/material';
 
 @Component({
   selector: 'ed-table-page',
@@ -15,9 +15,13 @@ export class TablePageComponent implements OnInit {
   public dataSource: MatTableDataSource<ILetter> = new MatTableDataSource([]);
 
   public letters: ILetter[];
-  public displayedColumns: string[] = ["name", "description", "type"];
+  public displayedColumns: string[] = ["name", "description", "imageUrl", "type", "action"];
 
-  constructor(private greekLetterService: GreekLetterService, private cdRef: ChangeDetectorRef) { }
+  constructor(
+    private greekLetterService: GreekLetterService,
+    private cdRef: ChangeDetectorRef,
+    private dialog: MatDialog
+  ) { }
 
   ngOnInit() {
     this.getLetters();
@@ -43,6 +47,16 @@ export class TablePageComponent implements OnInit {
     this.letters = letters;
     this.dataSource.data = letters;
     this.cdRef.detectChanges();
+  }
+
+  public filter(search: string = ""): void {
+    this.dataSource.filter = search.trim().toLocaleLowerCase();
+  }
+
+  public editLetter(letter: ILetter): void {
+    const dialogConfig = new MatDialogConfig();
+    console.log(letter.name);
+    this.dialog.open(EditLetterComponent, dialogConfig);
   }
 
 }
