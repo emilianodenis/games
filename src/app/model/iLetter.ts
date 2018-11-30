@@ -4,4 +4,5 @@ export interface ILetter {
   description: string;
   imageUrl: string;
   type: LetterType;
+  date: Date;
 }

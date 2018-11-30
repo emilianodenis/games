@@ -12,7 +12,8 @@ export class GreekLetterService {
         name: "alpha",
         description: "Le A grec",
         imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Alpha_uc_lc.svg/langfr-125px-Alpha_uc_lc.svg.png",
-        type: "base"
+        type: "base",
+        date: new Date(1853, 0, 15)
     };
 
     private letter2 = <ILetter>{
@@ -20,7 +21,8 @@ export class GreekLetterService {
         name: "beta",
         description: "Pas vraiment brillant",
         imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Beta_uc_lc.svg/langfr-125px-Beta_uc_lc.svg.png",
-        type: "alt"
+        type: "alt",
+        date: new Date(1962, 5, 13)
     };
 
     private letter3 = <ILetter>{
@@ -28,7 +30,8 @@ export class GreekLetterService {
         name: "gamma",
         description: "C'est comme le G",
         imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Gamma_uc_lc.svg/langfr-125px-Gamma_uc_lc.svg.png",
-        type: "base"
+        type: "base",
+        date: new Date(1788, 8, 22)
     };
 
     private letter4 = <ILetter>{
@@ -36,7 +39,8 @@ export class GreekLetterService {
         name: "delta",
         description: "C'est un triangle",
         imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Delta_uc_lc.svg/langfr-125px-Delta_uc_lc.svg.png",
-        type: "alt"
+        type: "alt",
+        date: new Date(2015, 10, 2)
     };
 
     private letter5 = <ILetter>{
@@ -44,7 +48,8 @@ export class GreekLetterService {
         name: "epsilon",
         description: "Euhhhhhh",
         imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Epsilon_uc_lc.svg/langfr-125px-Epsilon_uc_lc.svg.png",
-        type: "base"
+        type: "base",
+        date: new Date(2036, 11, 8)
     };
 
     private letter6 = <ILetter>{
@@ -52,7 +57,8 @@ export class GreekLetterService {
         name: "Iota",
         description: "Très petit i",
         imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Iota_uc_lc.svg/langfr-125px-Iota_uc_lc.svg.png",
-        type: "alt"
+        type: "alt",
+        date: new Date(1658, 7, 29)
     };
 
     private letter7 = <ILetter>{
@@ -60,7 +66,8 @@ export class GreekLetterService {
         name: "Omicron",
         description: "premiere description",
         imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Omicron_uc_lc.svg/langfr-125px-Omicron_uc_lc.svg.png",
-        type: "base"
+        type: "base",
+        date: new Date(1063, 1, 23)
     };
 
     private letter8 = <ILetter>{
@@ -68,7 +75,8 @@ export class GreekLetterService {
         name: "Upsilon",
         description: "20e lettre de l'alphabet grec, précédée par tau et suivie par phi.",
         imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Upsilon_uc_lc.svg/langfr-125px-Upsilon_uc_lc.svg.png",
-        type: "alt"
+        type: "alt",
+        date: new Date(1945, 7, 14)
     };
 
     private card9 = <ILetter>{
@@ -76,7 +84,8 @@ export class GreekLetterService {
         name: "Omega",
         description: "On dit que c'est le plus grand",
         imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Omega_uc_lc.svg/langfr-125px-Omega_uc_lc.svg.png",
-        type: "base"
+        type: "base",
+        date: new Date(1236, 8, 3)
     };
 
     private letters: ILetter[] = [

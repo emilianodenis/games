@@ -3,6 +3,7 @@ import { MatDialog, MatTableDataSource, MatDialogConfig } from '@angular/materia
 import { EditLetterComponent } from 'src/app/components/edit-letter/edit-letter.component';
 import { ILetter } from 'src/app/model/iLetter';
 import { GreekLetterService } from 'src/app/service/greek-letter.service';
+import { ScrollStrategyOptions } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'ed-table-page',
@@ -55,8 +56,19 @@ export class TablePageComponent implements OnInit {
 
   public editLetter(letter: ILetter): void {
     const dialogConfig = new MatDialogConfig();
-    console.log(letter.name);
-    this.dialog.open(EditLetterComponent, dialogConfig);
+
+    dialogConfig.disableClose = true;
+    dialogConfig.data = letter;
+    dialogConfig.autoFocus = true;
+    dialogConfig.maxHeight = "100%";
+
+    let dialog = this.dialog.open(EditLetterComponent, dialogConfig);
+
+    dialog
+      .afterClosed()
+      .subscribe(
+        (data) => console.log(data)
+      );
   }
 
 }

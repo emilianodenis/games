@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
-import { MatCardModule, MatDialogModule, MatInputModule, MatListModule, MatMenuModule, MatSidenavModule, MatTableModule, MatTabsModule, MatToolbarModule } from "@angular/material";
+import { ReactiveFormsModule } from "@angular/forms";
+import { MatCardModule, MatDatepickerModule, MatDialogModule, MatInputModule, MatListModule, MatMenuModule, MatSelectModule, MatSidenavModule, MatTableModule, MatTabsModule, MatToolbarModule } from "@angular/material";
+import { MatMomentDateModule } from "@angular/material-moment-adapter";
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
@@ -21,32 +23,36 @@ import { GreekLetterService } from 'src/app/service/greek-letter.service';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    HomeComponent,
     AboutComponent,
-    MineSweeperComponent,
-    TopMenuComponent,
+    AppComponent,
     CardListComponent,
     CardPageComponent,
+    EditLetterComponent,
+    HomeComponent,
+    MineSweeperComponent,
     TablePageComponent,
-    EditLetterComponent
+    TopMenuComponent,
   ],
   imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
+    BrowserModule,
     MatButtonModule,
     MatButtonToggleModule,
     MatCardModule,
+    MatDatepickerModule,
     MatDialogModule,
-    MatInputModule,
-    MatMenuModule,
-    MatSidenavModule,
-    MatListModule,
     MatIconModule,
+    MatInputModule,
+    MatListModule,
+    MatMenuModule,
+    MatMomentDateModule,
+    MatSelectModule,
+    MatSidenavModule,
+    MatTableModule,
     MatTabsModule,
     MatToolbarModule,
-    MatTableModule
+    ReactiveFormsModule,
   ],
   entryComponents: [EditLetterComponent],
   providers: [GreekLetterService],

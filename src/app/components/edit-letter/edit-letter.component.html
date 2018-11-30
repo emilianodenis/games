@@ -1,3 +1,93 @@
-<p>
-  edit-letter works!
-</p>
+<h2 mat-dialog-title>{{letter.name}}</h2>
+
+<mat-dialog-content [formGroup]="form">
+
+  <mat-form-field>
+
+    <input matInput placeholder="Name" formControlName="letterName" />
+
+  </mat-form-field>
+
+  <mat-form-field>
+
+    <input matInput placeholder="Description" formControlName="letterDescription" />
+
+  </mat-form-field>
+
+  <mat-form-field>
+
+    <mat-select placeholder="Type" formControlName="letterType">
+
+      <mat-option value="base">base</mat-option>
+      <mat-option value="alt">alt</mat-option>
+      <mat-option value="advanced">advanced</mat-option>
+
+    </mat-select>
+
+  </mat-form-field>
+
+  <mat-form-field>
+
+    <input matInput [matDatepicker]="date" formControlName="letterDate" />
+
+    <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
+
+    <mat-datepicker #date></mat-datepicker>
+
+  </mat-form-field>
+
+  <mat-form-field>
+
+    <textarea matInput placeholder="Description">
+
+    </textarea>
+  </mat-form-field>
+
+  <!-- a<p>{{letterDescription}}</p>
+  b<p>{{letterDescription}}</p>
+  c<p>{{letterDescription}}</p>
+  d<p>{{letterDescription}}</p>
+  e<p>{{letterDescription}}</p>
+  f<p>{{letterDescription}}</p>
+  g<p>{{letterDescription}}</p>
+  h<p>{{letterDescription}}</p>
+  i<p>{{letterDescription}}</p>
+  j<p>{{letterDescription}}</p>
+  k<p>{{letterDescription}}</p>
+  m<p>{{letterDescription}}</p>
+  l<p>{{letterDescription}}</p>
+  n<p>{{letterDescription}}</p>
+  o<p>{{letterDescription}}</p>
+  p<p>{{letterDescription}}</p>
+  q<p>{{letterDescription}}</p>
+  r<p>{{letterDescription}}</p>
+  s<p>{{letterDescription}}</p>
+  t<p>{{letterDescription}}</p>
+  u<p>{{letterDescription}}</p>
+  v<p>{{letterDescription}}</p>
+  w<p>{{letterDescription}}</p>
+  x<p>{{letterDescription}}</p>
+  y<p>{{letterDescription}}</p>
+  z<p>{{letterDescription}}</p>
+  aa<p>{{letterDescription}}</p>
+  ab<p>{{letterDescription}}</p>
+  ac<p>{{letterDescription}}</p>
+  ad<p>{{letterDescription}}</p>
+  ae<p>{{letterDescription}}</p>
+  af<p>{{letterDescription}}</p>
+  ag<p>{{letterDescription}}</p>
+  ah<p>{{letterDescription}}</p>
+  ai<p>{{letterDescription}}</p> -->
+</mat-dialog-content>
+
+<mat-dialog-actions>
+
+  <button class="mat-raised-button" (click)="close()">
+    CLOSE
+  </button>
+
+  <button class="mat-raised-button primary" (click)="save()">
+    SAVE
+  </button>
+
+</mat-dialog-actions>

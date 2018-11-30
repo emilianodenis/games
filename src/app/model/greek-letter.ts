@@ -6,4 +6,5 @@ export class GreekLetter implements ILetter {
     description: string;
     imageUrl: string;
     type: LetterType;
+    date: Date;
 }
