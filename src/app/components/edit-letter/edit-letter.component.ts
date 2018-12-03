@@ -1,12 +1,13 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ILetter } from 'src/app/model/iLetter';
 
 @Component({
   selector: 'ed-edit-letter',
   templateUrl: './edit-letter.component.html',
   styleUrls: ['./edit-letter.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [FormBuilder]
 })
 export class EditLetterComponent implements OnInit {
@@ -18,21 +19,15 @@ export class EditLetterComponent implements OnInit {
   public letterType: LetterType;
   public letterDate: Date;
 
-  private letter: ILetter;
+  public letter: ILetter;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) letter: ILetter,
     private fb: FormBuilder,
-    private dialogRef: MatDialogRef<EditLetterComponent>) {
+    private dialogRef: MatDialogRef<EditLetterComponent>,
+    private dialog: MatDialog) {
 
-    this.letter = letter;
-
-    if (letter) {
-      this.letterName = letter.name;
-      this.letterDescription = letter.description;
-      this.letterType = letter.type;
-      this.letterDate = letter.date;
-    }
+    this.setFormFields(letter);
 
     this.form = fb.group({
       letterName: [this.letterName, Validators.required],
@@ -45,12 +40,80 @@ export class EditLetterComponent implements OnInit {
   ngOnInit() {
   }
 
+  private setFormFields(letter: ILetter): void {
+    this.letter = letter;
+
+    if (letter) {
+      this.letterName = letter.name;
+      this.letterDescription = letter.description;
+      this.letterType = letter.type;
+      this.letterDate = letter.date;
+    }
+  }
+
+  private setControlFields(letter: ILetter): void {
+    if (!this.letter)
+      return;
+
+    this.form.setValue({
+      letterName: letter.name,
+      letterDescription: letter.description,
+      letterType: letter.type,
+      letterDate: letter.date
+    });
+  }
+
+  private getLetterFromForm(data: any = undefined): ILetter {
+
+    if (!data)
+      return undefined;
+
+    let editedLetter = <ILetter>{
+      name: data.letterName,
+      description: data.letterDescription,
+      date: data.letterDate,
+      type: data.letterType,
+      id: undefined,
+      imageUrl: undefined
+    };
+    if (this.letter) {
+      editedLetter.id = this.letter.id;
+      editedLetter.imageUrl = this.letter.imageUrl;
+    }
+
+    return editedLetter;
+  }
+
+  public editLetter(): void {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.data = this.getLetterFromForm(this.form.value);
+    dialogConfig.autoFocus = true;
+    dialogConfig.maxHeight = "100%";
+
+    let dialog = this.dialog.open(EditLetterComponent, dialogConfig);
+
+    dialog
+      .afterClosed()
+      .subscribe(
+        data => this.receiveEditedLetter(data)
+      );
+  }
+
+  private receiveEditedLetter(letter: ILetter): void {
+    if (!letter)
+      return;
+
+    this.setControlFields(letter);
+  }
+
   public save(): void {
     this.close(this.form.value);
   }
 
-  public close(data: ILetter = undefined): void {
-    this.dialogRef.close(data);
+  public close(data: any = undefined): void {
+    this.dialogRef.close(this.getLetterFromForm(data));
   }
 
 }

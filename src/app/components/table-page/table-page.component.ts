@@ -13,6 +13,8 @@ import { ScrollStrategyOptions } from '@angular/cdk/overlay';
 })
 export class TablePageComponent implements OnInit {
 
+  private editedLetter: ILetter;
+
   public dataSource: MatTableDataSource<ILetter> = new MatTableDataSource([]);
 
   public letters: ILetter[];
@@ -55,6 +57,8 @@ export class TablePageComponent implements OnInit {
   }
 
   public editLetter(letter: ILetter): void {
+    this.editedLetter = letter;
+
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;
@@ -67,8 +71,22 @@ export class TablePageComponent implements OnInit {
     dialog
       .afterClosed()
       .subscribe(
-        (data) => console.log(data)
+        letter => this.receiveEditedLetter(letter)
       );
+  }
+
+  private receiveEditedLetter(letter: ILetter): void {
+    if (!letter || !this.editedLetter)
+      return;
+
+    this.editedLetter.name = letter.name;
+    this.editedLetter.description = letter.description;
+    this.editedLetter.imageUrl = letter.imageUrl;
+    this.editedLetter.type = letter.type;
+    this.editedLetter.id = letter.id;
+    this.editedLetter.date = letter.date;
+
+    this.cdRef.detectChanges();
   }
 
 }
