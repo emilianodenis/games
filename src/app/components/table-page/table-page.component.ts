@@ -17,7 +17,7 @@ export class TablePageComponent implements OnInit {
   public dataSource: MatTableDataSource<ILetter> = new MatTableDataSource([]);
 
   public letters: ILetter[];
-  public displayedColumns: string[] = ["name", "description", "imageUrl", "type", "action"];
+  public displayedColumns: string[] = ["name", "description", "imageUrl", "type", "date", "action"];
 
   constructor(
     private greekLetterService: GreekLetterService,
