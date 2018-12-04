@@ -4,25 +4,20 @@
 
   <mat-form-field>
 
-    <input matInput placeholder="Name" formControlName="letterName" />
+    <input matInput placeholder="Name" formControlName="name" />
 
   </mat-form-field>
-
-  <!-- <mat-form-field>
-
-    <input matInput placeholder="Description" formControlName="letterDescription" />
-
-  </mat-form-field> -->
 
 
   <mat-form-field>
 
-    <textarea matInput placeholder="Description" formControlName="letterDescription"></textarea>
+    <textarea matInput placeholder="Description" formControlName="description"></textarea>
+
   </mat-form-field>
 
   <mat-form-field>
 
-    <mat-select placeholder="Type" formControlName="letterType">
+    <mat-select placeholder="Type" formControlName="type">
 
       <mat-option value="base">base</mat-option>
       <mat-option value="alt">alt</mat-option>
@@ -34,7 +29,7 @@
 
   <mat-form-field>
 
-    <input matInput [matDatepicker]="date" formControlName="letterDate" />
+    <input matInput [matDatepicker]="date" formControlName="date" />
 
     <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
 

@@ -6,5 +6,6 @@ export interface ILetter {
   type: LetterType;
   date: Date;
 
+  initialize(letter: ILetter): ILetter;
   clone(): ILetter;
 }

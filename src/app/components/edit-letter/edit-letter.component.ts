@@ -14,81 +14,45 @@ export class EditLetterComponent implements OnInit {
 
   public form: FormGroup;
 
-  public letterName: string;
-  public letterDescription: string;
-  public letterType: LetterType;
-  public letterDate: Date;
-
-  public letter: ILetter;
-
   constructor(
-    @Inject(MAT_DIALOG_DATA) letter: ILetter,
+    @Inject(MAT_DIALOG_DATA) public letter: ILetter,
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<EditLetterComponent>,
     private dialog: MatDialog) {
 
-    this.setFormFields(letter);
-
     this.form = fb.group({
-      letterName: [this.letterName, Validators.required],
-      letterDescription: [this.letterDescription, Validators.required],
-      letterType: [this.letterType, Validators.required],
-      letterDate: [this.letterDate, Validators.required]
+      name: [this.letter.name, Validators.required],
+      description: [this.letter.description, Validators.required],
+      type: [this.letter.type, Validators.required],
+      date: [this.letter.date, Validators.required]
     });
   }
 
   ngOnInit() {
   }
 
-  private setFormFields(letter: ILetter): void {
-    this.letter = letter;
-
-    if (letter) {
-      this.letterName = letter.name;
-      this.letterDescription = letter.description;
-      this.letterType = letter.type;
-      this.letterDate = letter.date;
-    }
+  private setControlFields({ name, description, type, date }: ILetter): void {
+    this.form.setValue({ name, description, type, date });
   }
 
-  private setControlFields(letter: ILetter): void {
-    if (!this.letter)
+  private mergeValuesToLetter(source: ILetter, dest: ILetter): void {
+    if (!dest || !source)
       return;
 
-    this.form.setValue({
-      letterName: letter.name,
-      letterDescription: letter.description,
-      letterType: letter.type,
-      letterDate: letter.date
-    });
-  }
-
-  private getLetterFromForm(data: any = undefined): ILetter {
-
-    if (!data)
-      return undefined;
-
-    let editedLetter = <ILetter>{
-      name: data.letterName,
-      description: data.letterDescription,
-      date: data.letterDate,
-      type: data.letterType,
-      id: undefined,
-      imageUrl: undefined
-    };
-    if (this.letter) {
-      editedLetter.id = this.letter.id;
-      editedLetter.imageUrl = this.letter.imageUrl;
-    }
-
-    return editedLetter;
+    dest.name = source.name;
+    dest.description = source.description;
+    dest.date = source.date;
+    dest.type = source.type;
   }
 
   public editLetter(): void {
     const dialogConfig = new MatDialogConfig();
 
+    let editedLetter = this.letter.clone();
+    this.mergeValuesToLetter(this.form.value, editedLetter);
+
     dialogConfig.disableClose = true;
-    dialogConfig.data = this.getLetterFromForm(this.form.value);
+    dialogConfig.data = editedLetter;
     dialogConfig.autoFocus = true;
     dialogConfig.maxHeight = "100%";
 
@@ -105,15 +69,18 @@ export class EditLetterComponent implements OnInit {
     if (!letter)
       return;
 
-    this.setControlFields(letter);
+    this.mergeValuesToLetter(letter, this.letter);
+
+    this.setControlFields(this.letter);
   }
 
   public save(): void {
-    this.close(this.form.value);
+    this.mergeValuesToLetter(this.form.value, this.letter);
+    this.close(this.letter);
   }
 
-  public close(data: any = undefined): void {
-    this.dialogRef.close(this.getLetterFromForm(data));
+  public close(data: ILetter = undefined): void {
+    this.dialogRef.close(data);
   }
 
 }

@@ -1,9 +1,8 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { MatDialog, MatTableDataSource, MatDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogConfig, MatTableDataSource } from '@angular/material';
 import { EditLetterComponent } from 'src/app/components/edit-letter/edit-letter.component';
 import { ILetter } from 'src/app/model/iLetter';
 import { GreekLetterService } from 'src/app/service/greek-letter.service';
-import { ScrollStrategyOptions } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'ed-table-page',
@@ -62,7 +61,7 @@ export class TablePageComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;
-    dialogConfig.data = letter;
+    dialogConfig.data = letter.clone();
     dialogConfig.autoFocus = true;
     dialogConfig.maxHeight = "100%";
 
@@ -79,12 +78,7 @@ export class TablePageComponent implements OnInit {
     if (!letter || !this.editedLetter)
       return;
 
-    this.editedLetter.name = letter.name;
-    this.editedLetter.description = letter.description;
-    this.editedLetter.imageUrl = letter.imageUrl;
-    this.editedLetter.type = letter.type;
-    this.editedLetter.id = letter.id;
-    this.editedLetter.date = letter.date;
+    this.editedLetter.initialize(letter);
 
     this.cdRef.detectChanges();
   }
