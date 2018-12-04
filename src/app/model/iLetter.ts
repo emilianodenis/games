@@ -5,4 +5,6 @@ export interface ILetter {
   imageUrl: string;
   type: LetterType;
   date: Date;
+
+  clone(): ILetter;
 }

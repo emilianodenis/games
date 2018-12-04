@@ -1,10 +1,3 @@
-import { ILetter } from "src/app/model/iLetter";
+import { BaseLetter } from "src/app/model/base-letter";
 
-export class GreekLetter implements ILetter {
-    id: number;
-    name: string;
-    description: string;
-    imageUrl: string;
-    type: LetterType;
-    date: Date;
-}
+export class GreekLetter extends BaseLetter { }
