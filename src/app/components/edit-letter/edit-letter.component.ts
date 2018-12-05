@@ -75,6 +75,9 @@ export class EditLetterComponent implements OnInit {
   }
 
   public save(): void {
+    if (!this.form.valid)
+      return;
+
     this.mergeValuesToLetter(this.form.value, this.letter);
     this.close(this.letter);
   }
