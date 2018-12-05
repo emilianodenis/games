@@ -8,7 +8,7 @@ import { GreekLetterService } from 'src/app/service/greek-letter.service';
   selector: 'ed-table-page',
   templateUrl: './table-page.component.html',
   styleUrls: ['./table-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TablePageComponent implements OnInit {
 

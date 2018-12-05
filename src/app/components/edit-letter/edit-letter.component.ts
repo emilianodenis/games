@@ -8,7 +8,7 @@ import { ILetter } from 'src/app/model/iLetter';
   templateUrl: './edit-letter.component.html',
   styleUrls: ['./edit-letter.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [FormBuilder]
+  providers: [FormBuilder],
 })
 export class EditLetterComponent implements OnInit {
 

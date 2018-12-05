@@ -7,7 +7,7 @@ import { GreekLetterService } from 'src/app/service/greek-letter.service';
   selector: 'ed-card-page',
   templateUrl: './card-page.component.html',
   styleUrls: ['./card-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CardPageComponent implements OnInit {
 
