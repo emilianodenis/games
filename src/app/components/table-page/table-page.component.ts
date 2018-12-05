@@ -22,7 +22,7 @@ export class TablePageComponent implements OnInit {
   constructor(
     private greekLetterService: GreekLetterService,
     private cdRef: ChangeDetectorRef,
-    private dialog: MatDialog
+    private dialog: MatDialog,
   ) { }
 
   ngOnInit() {
