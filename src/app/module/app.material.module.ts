@@ -1,9 +1,25 @@
 import { NgModule } from '@angular/core';
-import { MatCardModule, MatDatepickerModule, MatDialogModule, MatInputModule, MatListModule, MatMenuModule, MatSelectModule, MatSidenavModule, MatTableModule, MatTabsModule, MatToolbarModule } from "@angular/material";
+import {
+    MatButtonModule,
+    MatButtonToggleModule,
+    MatCardModule,
+    MatDatepickerModule,
+    MatDialogModule,
+    MatGridListModule,
+    MatIconModule,
+    MatInputModule,
+    MatListModule,
+    MatMenuModule,
+    MatSelectModule,
+    MatSidenavModule,
+    MatTableModule,
+    MatTabsModule,
+    MatToolbarModule,
+} from "@angular/material";
 import { MatMomentDateModule } from "@angular/material-moment-adapter";
-import { MatButtonModule } from '@angular/material/button';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { MatIconModule } from '@angular/material/icon';
+// import { MatButtonModule } from '@angular/material/button';
+// import { MatButtonToggleModule } from '@angular/material/button-toggle';
+// import { MatIconModule } from '@angular/material/icon';
 import { AppAngularModule } from 'src/app/module/app.angular.module';
 
 
@@ -15,6 +31,7 @@ import { AppAngularModule } from 'src/app/module/app.angular.module';
         MatCardModule,
         MatDatepickerModule,
         MatDialogModule,
+        MatGridListModule,
         MatIconModule,
         MatInputModule,
         MatListModule,
@@ -33,6 +50,7 @@ import { AppAngularModule } from 'src/app/module/app.angular.module';
         MatCardModule,
         MatDatepickerModule,
         MatDialogModule,
+        MatGridListModule,
         MatIconModule,
         MatInputModule,
         MatListModule,
