@@ -1,13 +1,15 @@
-<p>
+<div style="flex: 0 0 auto;">
   mine-sweeper works!
-</p>
+</div>
 
-<div #grid style="height: 100%;">
-  <mat-grid-list [cols]="nbCols" [rowHeight]="height" [style.max-width.px]="grid.clientHeight" (resize)="true" style="margin: auto; height: 100%; max-height: 100%;">
+<div #grid class="outer-grid">
+  <div [style.width.px]="gridSide" [style.height.px]="gridSide">
+    <mat-grid-list [cols]="nbCols" [gutterSize]="0" [rowHeight]="rowHeight" class="fade-in">
 
-    <mat-grid-tile *ngFor="let t of tiles" style="background-color: cadetblue; cursor: default;" (click)="log(t)">
-      {{t}}
-    </mat-grid-tile>
+      <mat-grid-tile *ngFor="let t of tiles">
+        {{t}}
+      </mat-grid-tile>
 
-  </mat-grid-list>
+    </mat-grid-list>
+  </div>
 </div>

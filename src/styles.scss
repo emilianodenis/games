@@ -14,3 +14,12 @@ html {
     justify-content: stretch;
     overflow: hidden;
 }
+
+.fade-in {
+    animation: fadein 0.5s;
+}
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}

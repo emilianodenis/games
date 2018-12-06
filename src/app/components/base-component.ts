@@ -6,7 +6,7 @@ export class BaseComponent extends BaseDisposableSubscription {
     this.disposeSubscriptions();
   }
 
-  public log(obj: any): void {
-    console.log(obj);
+  public log(...obj: any): void {
+    console.log(...obj);
   }
 }

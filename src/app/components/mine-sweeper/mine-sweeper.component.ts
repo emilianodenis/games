@@ -1,5 +1,14 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { debounceTime } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/components/base-component';
+import { AppBaseService } from 'src/app/service/app-base.service';
 
 @Component({
   selector: 'ed-mine-sweeper',
@@ -9,25 +18,66 @@ import { BaseComponent } from 'src/app/components/base-component';
 })
 export class MineSweeperComponent extends BaseComponent implements OnInit {
 
-  public nbCols: number = 10;
+  @ViewChild('grid') grid: ElementRef;
+
+  public nbCols: number;
+  public nbRows: number;
+  public gridSide: number;
+  public rowHeight: string = "10%";
+
   public tiles: Array<number>;
-  public height: string = "10%";
 
-  constructor() { super(); }
-
-  ngOnInit() {
-    this.generateTiles();
+  constructor(
+    private appService: AppBaseService,
+    private cd: ChangeDetectorRef,
+  ) {
+    super();
+    this.generateTiles(10, 10);
   }
 
-  private generateTiles(): void {
-    this.tiles = [];
-    for (let i = 0; i < this.nbCols; i++) {
+  ngOnInit() {
+    setTimeout(() => this.manageDimensions(), 0);
+    this.subscriptions
+      .push(
+        this.appService
+          .windowResized$
+          .pipe(debounceTime(25))
+          .subscribe(evt => {
+            this.manageDimensions();
+          }
+          )
+      );
+  }
 
-      for (let j = 0; j < this.nbCols; j++) {
-        this.tiles.push(i * 10 + j);
+  private generateTiles(nbCols: number, nbRows: number): void {
+
+    this.setCols(nbCols);
+    this.setRows(nbRows);
+
+    let tiles = [];
+    for (let i = 0; i < nbCols; i++) {
+
+      for (let j = 0; j < nbRows; j++) {
+        tiles.push(i * 10 + j);
       }
 
     }
+
+    this.tiles = tiles;
+  }
+
+  private setRows(nbRows: number): void {
+    this.nbRows = nbRows;
+    this.rowHeight = `${Math.floor(100 / nbRows)}%`;
+  }
+
+  private setCols(nbCols: number): void {
+    this.nbCols = nbCols;
+  }
+
+  private manageDimensions(): void {
+    this.gridSide = Math.min(this.grid.nativeElement.clientWidth, this.grid.nativeElement.clientHeight);
+    this.cd.detectChanges();
   }
 
 }
