@@ -1,4 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { BaseComponent } from 'src/app/components/base-component';
 
 @Component({
   selector: 'ed-mine-sweeper',
@@ -6,14 +7,13 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
   styleUrls: ['./mine-sweeper.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MineSweeperComponent implements OnInit {
+export class MineSweeperComponent extends BaseComponent implements OnInit {
 
   public nbCols: number = 10;
   public tiles: Array<number>;
   public height: string = "10%";
 
-  constructor() {
-  }
+  constructor() { super(); }
 
   ngOnInit() {
     this.generateTiles();
@@ -28,10 +28,6 @@ export class MineSweeperComponent implements OnInit {
       }
 
     }
-  }
-
-  public log(obj: any): void {
-    console.log(obj);
   }
 
 }

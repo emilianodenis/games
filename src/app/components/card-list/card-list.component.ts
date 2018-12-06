@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef } 
 import { ILetter } from 'src/app/model/iLetter';
 import { MatDialogConfig, MatDialog } from '@angular/material';
 import { EditLetterComponent } from 'src/app/components/edit-letter/edit-letter.component';
+import { BaseComponent } from 'src/app/components/base-component';
 
 @Component({
   selector: 'ed-card-list',
@@ -9,7 +10,7 @@ import { EditLetterComponent } from 'src/app/components/edit-letter/edit-letter.
   styleUrls: ['./card-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CardListComponent implements OnInit {
+export class CardListComponent extends BaseComponent implements OnInit {
 
   @Input()
   public letters: ILetter[];
@@ -19,7 +20,7 @@ export class CardListComponent implements OnInit {
   constructor(
     private cdRef: ChangeDetectorRef,
     private dialog: MatDialog,
-  ) { }
+  ) { super(); }
 
   ngOnInit() {
   }
@@ -36,11 +37,13 @@ export class CardListComponent implements OnInit {
 
     let dialog = this.dialog.open(EditLetterComponent, dialogConfig);
 
-    dialog
-      .afterClosed()
-      .subscribe(
-        letter => this.receiveEditedLetter(letter)
-      );
+    this.subscriptions
+      .push(
+        dialog
+          .afterClosed()
+          .subscribe(
+            letter => this.receiveEditedLetter(letter)
+          ));
   }
 
   private receiveEditedLetter(letter: ILetter): void {

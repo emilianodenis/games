@@ -1,4 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { BaseComponent } from 'src/app/components/base-component';
 
 @Component({
   selector: 'ed-about',
@@ -6,9 +7,9 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
   styleUrls: ['./about.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AboutComponent implements OnInit {
+export class AboutComponent extends BaseComponent implements OnInit {
 
-  constructor() { }
+  constructor() { super(); }
 
   ngOnInit() {
   }

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatTableDataSource } from '@angular/material';
+import { BaseComponent } from 'src/app/components/base-component';
 import { EditLetterComponent } from 'src/app/components/edit-letter/edit-letter.component';
 import { ILetter } from 'src/app/model/iLetter';
 import { GreekLetterService } from 'src/app/service/greek-letter.service';
@@ -10,7 +11,7 @@ import { GreekLetterService } from 'src/app/service/greek-letter.service';
   styleUrls: ['./table-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TablePageComponent implements OnInit {
+export class TablePageComponent extends BaseComponent implements OnInit {
 
   private editedLetter: ILetter;
 
@@ -23,7 +24,7 @@ export class TablePageComponent implements OnInit {
     private greekLetterService: GreekLetterService,
     private cdRef: ChangeDetectorRef,
     private dialog: MatDialog,
-  ) { }
+  ) { super(); }
 
   ngOnInit() {
     this.getLetters();
@@ -31,14 +32,17 @@ export class TablePageComponent implements OnInit {
 
   private getLetters(): void {
 
-    this.greekLetterService
-      .getCards()
-      .subscribe(
-        letters => this.setLetters(letters),
-        error => {
-          console.log(error);
-          alert(error);
-        }
+    this.subscriptions
+      .push(
+        this.greekLetterService
+          .getCards()
+          .subscribe(
+            letters => this.setLetters(letters),
+            error => {
+              console.log(error);
+              alert(error);
+            }
+          )
       );
   }
 
@@ -67,10 +71,13 @@ export class TablePageComponent implements OnInit {
 
     let dialog = this.dialog.open(EditLetterComponent, dialogConfig);
 
-    dialog
-      .afterClosed()
-      .subscribe(
-        letter => this.receiveEditedLetter(letter)
+    this.subscriptions
+      .push(
+        dialog
+          .afterClosed()
+          .subscribe(
+            letter => this.receiveEditedLetter(letter)
+          )
       );
   }
 

@@ -1,4 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { BaseComponent } from 'src/app/components/base-component';
 
 @Component({
   selector: 'ed-home',
@@ -7,9 +8,9 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class HomeComponent implements OnInit {
+export class HomeComponent extends BaseComponent implements OnInit {
 
-  constructor() { }
+  constructor() { super(); }
 
   ngOnInit() { }
 

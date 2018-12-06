@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ILetter } from 'src/app/model/iLetter';
 import { GreekLetterService } from 'src/app/service/greek-letter.service';
+import { BaseComponent } from 'src/app/components/base-component';
 
 
 @Component({
@@ -9,26 +10,31 @@ import { GreekLetterService } from 'src/app/service/greek-letter.service';
   styleUrls: ['./card-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CardPageComponent implements OnInit {
+export class CardPageComponent extends BaseComponent implements OnInit {
 
   public baseLetters: ILetter[];
   public altLetters: ILetter[];
 
-  constructor(private greekLetterService: GreekLetterService, private cdRef: ChangeDetectorRef) { }
+  constructor(
+    private greekLetterService: GreekLetterService,
+    private cdRef: ChangeDetectorRef) { super(); }
 
   ngOnInit() {
     this.getLetters();
   }
 
   private getLetters(): void {
-    this.greekLetterService
-      .getCards()
-      .subscribe(
-        letters => this.distributeLetters(letters),
-        error => {
-          console.log(error);
-          alert(error);
-        }
+    this.subscriptions
+      .push(
+        this.greekLetterService
+          .getCards()
+          .subscribe(
+            letters => this.distributeLetters(letters),
+            error => {
+              console.log(error);
+              alert(error);
+            }
+          )
       );
   }
 

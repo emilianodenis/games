@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { BaseComponent } from 'src/app/components/base-component';
 import { ILetter } from 'src/app/model/iLetter';
 
 @Component({
@@ -10,7 +11,7 @@ import { ILetter } from 'src/app/model/iLetter';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [FormBuilder],
 })
-export class EditLetterComponent implements OnInit {
+export class EditLetterComponent extends BaseComponent implements OnInit {
 
   public form: FormGroup;
 
@@ -19,6 +20,8 @@ export class EditLetterComponent implements OnInit {
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<EditLetterComponent>,
     private dialog: MatDialog) {
+
+    super();
 
     this.form = fb.group({
       name: [this.letter.name, Validators.required],
@@ -58,10 +61,13 @@ export class EditLetterComponent implements OnInit {
 
     let dialog = this.dialog.open(EditLetterComponent, dialogConfig);
 
-    dialog
-      .afterClosed()
-      .subscribe(
-        data => this.receiveEditedLetter(data)
+    this.subscriptions
+      .push(
+        dialog
+          .afterClosed()
+          .subscribe(
+            data => this.receiveEditedLetter(data)
+          )
       );
   }
 
