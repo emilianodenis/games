@@ -1,9 +1,9 @@
-<div style="flex: 0 0 auto;">
+<div class="header">
   mine-sweeper works!
 </div>
 
 <div #grid class="outer-grid">
-  <div [style.width.px]="gridSide" [style.height.px]="gridSide">
+  <div [style.width.px]="gridWidth" [style.height.px]="gridHeight">
     <mat-grid-list [cols]="nbCols" [gutterSize]="0" [rowHeight]="rowHeight" class="fade-in">
 
       <mat-grid-tile *ngFor="let t of tiles">

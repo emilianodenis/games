@@ -22,8 +22,11 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
 
   public nbCols: number;
   public nbRows: number;
-  public gridSide: number;
+  //public gridSide: number;
   public rowHeight: string = "10%";
+  public tileSide: number;
+  public gridWidth: number;
+  public gridHeight: number;
 
   public tiles: Array<number>;
 
@@ -32,7 +35,7 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
     private cd: ChangeDetectorRef,
   ) {
     super();
-    this.generateTiles(10, 10);
+    this.generateTiles(20, 6);
   }
 
   ngOnInit() {
@@ -55,10 +58,10 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
     this.setRows(nbRows);
 
     let tiles = [];
-    for (let i = 0; i < nbCols; i++) {
+    for (let i = 0; i < nbRows; i++) {
 
-      for (let j = 0; j < nbRows; j++) {
-        tiles.push(i * 10 + j);
+      for (let j = 0; j < nbCols; j++) {
+        tiles.push(i * nbCols + j);
       }
 
     }
@@ -68,7 +71,7 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
 
   private setRows(nbRows: number): void {
     this.nbRows = nbRows;
-    this.rowHeight = `${Math.floor(100 / nbRows)}%`;
+    this.rowHeight = `${(100 / nbRows).toFixed(4)}%`;
   }
 
   private setCols(nbCols: number): void {
@@ -76,7 +79,19 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
   }
 
   private manageDimensions(): void {
-    this.gridSide = Math.min(this.grid.nativeElement.clientWidth, this.grid.nativeElement.clientHeight);
+
+    let maxtileWidth = this.grid.nativeElement.clientWidth / this.nbCols;
+    let maxTileHeight = this.grid.nativeElement.clientHeight / this.nbRows;
+
+    this.tileSide = Math.min(maxtileWidth, maxTileHeight);
+
+    this.gridHeight = this.tileSide * this.nbRows;
+    this.gridWidth = this.tileSide * this.nbCols;
+
+    //this.gridSide = Math.min(this.grid.nativeElement.clientWidth, this.grid.nativeElement.clientHeight);
+
+
+
     this.cd.detectChanges();
   }
 
