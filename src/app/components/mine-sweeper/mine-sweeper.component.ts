@@ -1,14 +1,10 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/components/base-component';
 import { AppBaseService } from 'src/app/service/app-base.service';
+
+export type AllowedOptions = "Easy" | "Beginner" | "Intermediate" | "Difficult" | "Advanced" | "Custom";
 
 @Component({
   selector: 'ed-mine-sweeper',
@@ -20,9 +16,28 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
 
   @ViewChild('grid') grid: ElementRef;
 
+  private easyOption: AllowedOptions = "Easy";
+  private beginnerOption: AllowedOptions = "Beginner";
+  private intermediateOption: AllowedOptions = "Intermediate";
+  private difficultOption: AllowedOptions = "Difficult";
+  private advancedOption: AllowedOptions = "Advanced";
+  private customOption: AllowedOptions = "Custom";
+
+  public allowedOptions: Array<AllowedOptions> = [
+    this.easyOption,
+    this.beginnerOption,
+    this.intermediateOption,
+    this.difficultOption,
+    this.advancedOption,
+    this.customOption,
+  ];
+
+  public currentOption: AllowedOptions;// = this.easyOption;
+
+  public form: FormGroup;
+
   public nbCols: number;
   public nbRows: number;
-  //public gridSide: number;
   public rowHeight: string = "10%";
   public tileSide: number;
   public gridWidth: number;
@@ -33,9 +48,21 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
   constructor(
     private appService: AppBaseService,
     private cd: ChangeDetectorRef,
+    private fb: FormBuilder,
   ) {
     super();
-    this.generateTiles(20, 6);
+    //this.generateTiles(20, 6);
+
+    this.form = fb.group({
+      selectedOption: [this.currentOption, Validators.required],
+    });
+
+    this.subscriptions.push(
+      this.form
+        .get("selectedOption")
+        .valueChanges
+        .subscribe(opt => this.handleLevelChange(opt))
+    );
   }
 
   ngOnInit() {
@@ -50,12 +77,43 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
           }
           )
       );
+
+    this.form
+      .get("selectedOption")
+      .setValue(this.easyOption);
+  }
+
+  private handleLevelChange(level: AllowedOptions): void {
+    if (level == undefined)
+      return;
+
+    if (level == this.easyOption) {
+      this.setSize(9, 9);
+    } else if (level == this.easyOption) {
+      this.setSize(12, 12);
+    } else if (level == this.beginnerOption) {
+      this.setSize(16, 12);
+    } else if (level == this.intermediateOption) {
+      this.setSize(20, 12);
+    } else if (level == this.difficultOption) {
+      this.setSize(25, 14);
+    } else if (level == this.advancedOption) {
+      this.setSize(30, 16);
+    } else {
+      this.setSize(35, 20);
+    }
+  }
+
+  private setSize(nbCols: number, nbRows: number): void {
+    this.setCols(nbCols);
+    this.setRows(nbRows);
+
+    this.generateTiles(nbCols, nbRows);
+
+    this.manageDimensions();
   }
 
   private generateTiles(nbCols: number, nbRows: number): void {
-
-    this.setCols(nbCols);
-    this.setRows(nbRows);
 
     let tiles = [];
     for (let i = 0; i < nbRows; i++) {

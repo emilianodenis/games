@@ -1,6 +1,18 @@
-<div class="header">
-  mine-sweeper works!
-</div>
+<form class="header" autocomplete="off" [formGroup]="form">
+  <mat-form-field>
+
+    <mat-select placeholder="Level" formControlName="selectedOption">
+
+      <mat-option *ngFor="let option of allowedOptions" [value]="option">{{option}}</mat-option>
+
+    </mat-select>
+
+  </mat-form-field>
+</form>
+
+<!-- <div class="header">
+
+</div> -->
 
 <div #grid class="outer-grid">
   <div [style.width.px]="gridWidth" [style.height.px]="gridHeight">
