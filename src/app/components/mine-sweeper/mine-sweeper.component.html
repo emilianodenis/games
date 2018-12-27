@@ -1,5 +1,5 @@
 <form class="header" autocomplete="off" [formGroup]="form">
-  <mat-form-field>
+  <mat-form-field  style="justify-self: center">
 
     <mat-select placeholder="Level" formControlName="selectedOption">
 
@@ -8,17 +8,19 @@
     </mat-select>
 
   </mat-form-field>
+
+  <div *ngIf="gameStarted" style="justify-self: right">
+    {{ math.floor((timer$ | async) / 60 / 24) | number: '2.0-0'}}:{{ math.floor((timer$ | async) / 60) | number:
+    '2.0-0'}}:{{((timer$ | async) % 60) | number: '2.0-0' }}
+    </div>
 </form>
 
-<!-- <div class="header">
-
-</div> -->
 
 <div #grid class="outer-grid">
   <div [style.width.px]="gridWidth" [style.height.px]="gridHeight">
     <mat-grid-list [cols]="nbCols" [gutterSize]="0" [rowHeight]="rowHeight" class="fade-in">
 
-      <mat-grid-tile *ngFor="let t of tiles">
+      <mat-grid-tile *ngFor="let t of tiles" (click)="clickTile(t)">
         {{t}}
       </mat-grid-tile>
 

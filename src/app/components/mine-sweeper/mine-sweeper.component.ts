@@ -1,8 +1,14 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import * as moment from 'moment';
+import { Observable } from 'rxjs/internal/Observable';
+import { interval } from 'rxjs/internal/observable/interval';
+import { timer } from 'rxjs/internal/observable/timer';
+import { Subject } from 'rxjs/internal/Subject';
 import { debounceTime } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/components/base-component';
 import { AppBaseService } from 'src/app/service/app-base.service';
+
 
 export type AllowedOptions = "Easy" | "Beginner" | "Intermediate" | "Difficult" | "Advanced" | "Custom";
 
@@ -15,6 +21,14 @@ export type AllowedOptions = "Easy" | "Beginner" | "Intermediate" | "Difficult" 
 export class MineSweeperComponent extends BaseComponent implements OnInit {
 
   @ViewChild('grid') grid: ElementRef;
+
+  private static MineSweeperTimerKey = "MineSweeperTimerKey";
+
+  public math = Math;
+
+  public timer$: Observable<number>;// = timer(0, 1000);
+
+  public gameStarted: boolean = false;
 
   private easyOption: AllowedOptions = "Easy";
   private beginnerOption: AllowedOptions = "Beginner";
@@ -45,13 +59,14 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
 
   public tiles: Array<number>;
 
+  public seconds: number = 0;
+
   constructor(
     private appService: AppBaseService,
     private cd: ChangeDetectorRef,
     private fb: FormBuilder,
   ) {
     super();
-    //this.generateTiles(20, 6);
 
     this.form = fb.group({
       selectedOption: [this.currentOption, Validators.required],
@@ -83,9 +98,22 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
       .setValue(this.easyOption);
   }
 
+  private resetTimer(): void {
+    this.timer$ = timer(0, 1000);
+    this.addSubcription(MineSweeperComponent.MineSweeperTimerKey,
+      this.timer$.subscribe(n => console.log(n)));
+  }
+
+  private stopTimer(): void {
+    this.removeSubscription(MineSweeperComponent.MineSweeperTimerKey);
+    this.gameStarted = false;
+  }
+
   private handleLevelChange(level: AllowedOptions): void {
     if (level == undefined)
       return;
+
+    this.stopTimer();
 
     if (level == this.easyOption) {
       this.setSize(9, 9);
@@ -151,6 +179,14 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
 
 
     this.cd.detectChanges();
+  }
+
+  public clickTile(tile: number): void {
+    if (!this.gameStarted) {
+      this.gameStarted = true;
+      this.resetTimer();
+    }
+    console.log(tile);
   }
 
 }
