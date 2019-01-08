@@ -28,7 +28,7 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
 
   public timer$: Observable<number>;// = timer(0, 1000);
 
-  public gameStarted: boolean = false;
+  public gameInProgress: boolean = false;
 
   private easyOption: AllowedOptions = "Easy";
   private beginnerOption: AllowedOptions = "Beginner";
@@ -81,7 +81,9 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    setTimeout(() => this.manageDimensions(), 0);
+    setTimeout(() => this.form
+      .get("selectedOption")
+      .setValue(this.easyOption), 0);
     this.subscriptions
       .push(
         this.appService
@@ -92,10 +94,6 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
           }
           )
       );
-
-    this.form
-      .get("selectedOption")
-      .setValue(this.easyOption);
   }
 
   private resetTimer(): void {
@@ -106,7 +104,7 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
 
   private stopTimer(): void {
     this.removeSubscription(MineSweeperComponent.MineSweeperTimerKey);
-    this.gameStarted = false;
+    this.gameInProgress = false;
   }
 
   private handleLevelChange(level: AllowedOptions): void {
@@ -182,8 +180,8 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
   }
 
   public clickTile(tile: number): void {
-    if (!this.gameStarted) {
-      this.gameStarted = true;
+    if (!this.gameInProgress) {
+      this.gameInProgress = true;
       this.resetTimer();
     }
     console.log(tile);
