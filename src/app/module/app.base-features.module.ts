@@ -8,6 +8,7 @@ import { MineSweeperComponent } from 'src/app/components/mine-sweeper/mine-sweep
 import { TablePageComponent } from 'src/app/components/table-page/table-page.component';
 import { TopMenuComponent } from 'src/app/components/top-menu/top-menu.component';
 import { AppMaterialModule } from 'src/app/module/app.material.module';
+import { TileComponent } from '../components/mine-sweeper/tile/tile.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { AppMaterialModule } from 'src/app/module/app.material.module';
     EditLetterComponent,
     HomeComponent,
     MineSweeperComponent,
+    TileComponent,
     TablePageComponent,
     TopMenuComponent,
   ],
@@ -31,6 +33,7 @@ import { AppMaterialModule } from 'src/app/module/app.material.module';
     EditLetterComponent,
     HomeComponent,
     MineSweeperComponent,
+    TileComponent,
     TablePageComponent,
     TopMenuComponent,
   ],

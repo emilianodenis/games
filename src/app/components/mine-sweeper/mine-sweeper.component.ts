@@ -1,12 +1,10 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import * as moment from 'moment';
 import { Observable } from 'rxjs/internal/Observable';
-import { interval } from 'rxjs/internal/observable/interval';
 import { timer } from 'rxjs/internal/observable/timer';
-import { Subject } from 'rxjs/internal/Subject';
 import { debounceTime } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/components/base-component';
+import { Tile } from 'src/app/model/tile';
 import { AppBaseService } from 'src/app/service/app-base.service';
 
 
@@ -26,7 +24,7 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
 
   public math = Math;
 
-  public timer$: Observable<number>;// = timer(0, 1000);
+  public timer$: Observable<number>;
 
   public gameInProgress: boolean = false;
 
@@ -57,7 +55,7 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
   public gridWidth: number;
   public gridHeight: number;
 
-  public tiles: Array<number>;
+  public tiles: Array<Tile>;
 
   public seconds: number = 0;
 
@@ -98,12 +96,12 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
 
   private resetTimer(): void {
     this.timer$ = timer(0, 1000);
-    this.addSubcription(MineSweeperComponent.MineSweeperTimerKey,
-      this.timer$.subscribe(n => console.log(n)));
+    // this.addSubcription(MineSweeperComponent.MineSweeperTimerKey,
+    //   this.timer$.subscribe(n => console.log(n)));
   }
 
   private stopTimer(): void {
-    this.removeSubscription(MineSweeperComponent.MineSweeperTimerKey);
+    // this.removeSubscription(MineSweeperComponent.MineSweeperTimerKey);
     this.gameInProgress = false;
   }
 
@@ -145,7 +143,7 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
     for (let i = 0; i < nbRows; i++) {
 
       for (let j = 0; j < nbCols; j++) {
-        tiles.push(i * nbCols + j);
+        tiles.push(new Tile(i * nbCols + j));
       }
 
     }
@@ -172,14 +170,10 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
     this.gridHeight = this.tileSide * this.nbRows;
     this.gridWidth = this.tileSide * this.nbCols;
 
-    //this.gridSide = Math.min(this.grid.nativeElement.clientWidth, this.grid.nativeElement.clientHeight);
-
-
-
     this.cd.detectChanges();
   }
 
-  public clickTile(tile: number): void {
+  public clickTile(tile: Tile): void {
     if (!this.gameInProgress) {
       this.gameInProgress = true;
       this.resetTimer();

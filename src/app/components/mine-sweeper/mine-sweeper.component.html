@@ -27,7 +27,7 @@
     <mat-grid-list [cols]="nbCols" [gutterSize]="0" [rowHeight]="rowHeight" class="fade-in">
 
       <mat-grid-tile *ngFor="let t of tiles" (click)="clickTile(t)">
-        {{t}}
+        <ed-tile [tile]="t"></ed-tile>
       </mat-grid-tile>
 
     </mat-grid-list>
