@@ -50,6 +50,7 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
 
   public nbCols: number;
   public nbRows: number;
+  private bombCount: number;
   public rowHeight: string = "10%";
   public tileSide: number;
   public gridWidth: number;
@@ -112,25 +113,26 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
     this.stopTimer();
 
     if (level == this.easyOption) {
-      this.setSize(9, 9);
+      this.setSize(9, 9, 10);
     } else if (level == this.easyOption) {
-      this.setSize(12, 12);
+      this.setSize(12, 12, 15);
     } else if (level == this.beginnerOption) {
-      this.setSize(16, 12);
+      this.setSize(16, 12, 20);
     } else if (level == this.intermediateOption) {
-      this.setSize(20, 12);
+      this.setSize(20, 12, 30);
     } else if (level == this.difficultOption) {
-      this.setSize(25, 14);
+      this.setSize(25, 14, 50);
     } else if (level == this.advancedOption) {
-      this.setSize(30, 16);
+      this.setSize(30, 16, 100);
     } else {
-      this.setSize(35, 20);
+      this.setSize(35, 20, 150);
     }
   }
 
-  private setSize(nbCols: number, nbRows: number): void {
+  private setSize(nbCols: number, nbRows: number, bombCount: number): void {
     this.setCols(nbCols);
     this.setRows(nbRows);
+    this.bombCount = bombCount;
 
     this.generateTiles(nbCols, nbRows);
 
@@ -174,11 +176,72 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
   }
 
   public clickTile(tile: Tile): void {
+    if (!tile)
+      return;
+
     if (!this.gameInProgress) {
       this.gameInProgress = true;
       this.resetTimer();
+      this.dropBombs(tile);
     }
     console.log(tile);
+  }
+
+  private dropBombs(actualTile: Tile): void {
+    let droppedBombs = 0;
+
+    let tileWithNoBombs = [];
+    if (actualTile) {
+      tileWithNoBombs.push(actualTile);
+      const hasBottom = actualTile.id < this.tiles.length - this.nbCols;
+      const hasTop = actualTile.id >= this.nbCols;
+      const hasLeft = actualTile.id % this.nbCols > 0;
+      const hasRight = actualTile.id % this.nbCols != this.nbCols - 1
+
+      console.log(hasTop, hasRight, hasBottom, hasLeft);
+
+      if (hasBottom) {
+        tileWithNoBombs.push(this.tiles[actualTile.id + this.nbCols]);
+        if (hasLeft) {
+          tileWithNoBombs.push(this.tiles[actualTile.id + this.nbCols - 1]);
+        }
+        if (hasRight) {
+          tileWithNoBombs.push(this.tiles[actualTile.id + this.nbCols + 1]);
+        }
+      }
+
+      if (hasTop) {
+        tileWithNoBombs.push(this.tiles[actualTile.id - this.nbCols]);
+        if (hasLeft) {
+          tileWithNoBombs.push(this.tiles[actualTile.id - this.nbCols - 1]);
+        }
+        if (hasRight) {
+          tileWithNoBombs.push(this.tiles[actualTile.id - this.nbCols + 1]);
+        }
+      }
+
+      if (hasLeft) {
+        tileWithNoBombs.push(this.tiles[actualTile.id - 1]);
+      }
+
+      if (hasRight) {
+        tileWithNoBombs.push(this.tiles[actualTile.id + 1]);
+      }
+
+      tileWithNoBombs.sort((t1: Tile, t2: Tile) => t1.id - t2.id);
+    }
+
+    while (droppedBombs < this.bombCount) {
+      let idx = Math.floor(Math.random() * this.tiles.length);
+
+      if (tileWithNoBombs.includes(this.tiles[idx]))
+        continue;
+
+      this.tiles[idx].setBomb(true);
+      ++droppedBombs;
+    }
+
+
   }
 
 }
