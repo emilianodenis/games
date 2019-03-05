@@ -14,10 +14,14 @@
   </mat-form-field>
 
   <div class="side side-right">
-    <span *ngIf="gameInProgress">
-      {{ math.floor((timer$ | async) / 60 / 24) | number: '2.0-0'}}:{{ math.floor((timer$ | async) / 60) | number:
+    <ng-container *ngIf="gameInProgress">
+      <div>Total: {{tilesWithBombs?.length}}</div>
+      <div class="left-spacer">Found: {{tilesSuspected.length}}</div>
+      <div class="left-spacer">
+        {{ math.floor((timer$ | async) / 60 / 24) | number: '2.0-0'}}:{{ math.floor((timer$ | async) / 60) | number:
       '2.0-0'}}:{{((timer$ | async) % 60) | number: '2.0-0' }}
-    </span>
+      </div>
+    </ng-container>
   </div>
 </form>
 

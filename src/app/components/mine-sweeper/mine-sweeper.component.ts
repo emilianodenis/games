@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { timer } from 'rxjs/internal/observable/timer';
 import { debounceTime } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/components/base-component';
-import { Tile } from 'src/app/model/tile';
+import { LevelDetected, Tile } from 'src/app/model/tile';
 import { AppBaseService } from 'src/app/service/app-base.service';
 
 
@@ -89,6 +89,9 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
 
     public gameInProgress: boolean = false;
 
+    private dateStarted: Date;
+    private dateEnded: Date;
+
     private easyOption: AllowedOptions = "Easy";
     private beginnerOption: AllowedOptions = "Beginner";
     private intermediateOption: AllowedOptions = "Intermediate";
@@ -111,7 +114,7 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
 
     public nbCols: number;
     public nbRows: number;
-    private bombCount: number;
+    public bombCount: number;
     public rowHeight: string = "10%";
     public tileSide: number;
     public gridWidth: number;
@@ -120,6 +123,10 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
     public tiles: Array<Tile>;
 
     public seconds: number = 0;
+
+    public tilesWithBombs: Array<Tile>;
+    public tilesSuspected: Array<Tile>;
+    public tilesEmpty: Array<Tile>;
 
     constructor(
         private appService: AppBaseService,
@@ -158,12 +165,9 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
 
     private resetTimer(): void {
         this.timer$ = timer(0, 1000);
-        // this.addSubcription(MineSweeperComponent.MineSweeperTimerKey,
-        //   this.timer$.subscribe(n => console.log(n)));
     }
 
     private stopTimer(): void {
-        // this.removeSubscription(MineSweeperComponent.MineSweeperTimerKey);
         this.gameInProgress = false;
     }
 
@@ -242,6 +246,17 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
             return false;
 
         tile.detect();
+        if (tile.currentDetectionLevel == LevelDetected.flag) {
+            this.tilesSuspected.push(tile);
+            if (this.checkWiningConditions()) {
+                this.stopGame();
+                this.tilesWithBombs.forEach(t => t.isRevealed = true);
+                console.log(`you won boy! It only took you ${Math.floor((this.dateEnded.getTime() - this.dateStarted.getTime()) / 1000)} seconds`);
+            }
+        } else if (tile.currentDetectionLevel == LevelDetected.unknown) {
+            let idx = this.tilesSuspected.indexOf(tile);
+            this.tilesSuspected.splice(idx, 1);
+        }
         return false;
     }
 
@@ -250,18 +265,27 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
             return;
 
         if (!this.gameInProgress) {
-            this.gameInProgress = true;
-            this.resetTimer();
-            this.dropBombs(tile);
+            this.generateGame(tile);
         }
         this.revealTile(tile);
     }
 
     private revealTile(tile: Tile): void {
-        if (tile == undefined || tile.isRevealed)
+        if (tile == undefined || tile.isRevealed || !this.gameInProgress)
             return;
 
         tile.reveal();
+
+        if (tile.hasBomb) {
+            this.stopGame();
+            this.tiles.forEach(t => t.reveal());
+            console.log(`you lost boy! after barely ${Math.floor((this.dateEnded.getTime() - this.dateStarted.getTime()) / 1000)} seconds`);
+            return;
+        } else if (this.checkWiningConditions()) {
+            this.stopGame();
+            this.tilesWithBombs.forEach(t => t.isRevealed = true);
+            console.log(`you won boy! It only took you ${Math.floor((this.dateEnded.getTime() - this.dateStarted.getTime()) / 1000)} seconds`);
+        }
 
         if (tile.surroundingBombCount == 0) {
             const tilesIdxToReveal = new SurroundingContext(this.nbCols, this.tiles.length, tile.id).getDetectedIndexes();
@@ -269,12 +293,40 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
         }
     }
 
+    private checkWiningConditions(): boolean {
+        if (this.tilesEmpty.some(t => t.isRevealed == false))
+            return false;
+
+        if (this.tilesWithBombs.some(t => t.currentDetectionLevel != LevelDetected.flag))
+            return false;
+
+        if (this.tilesSuspected.some(t => t.hasBomb == false))
+            return false;
+
+        return true;
+    }
+
+    private generateGame(tile: Tile): void {
+        this.gameInProgress = true;
+        this.resetTimer();
+        this.tilesWithBombs = [];
+        this.tilesSuspected = [];
+        this.tilesEmpty = [];
+        this.dropBombs(tile);
+        this.dateStarted = new Date();
+    }
+
+    private stopGame(): void {
+        this.dateEnded = new Date();
+        this.resetTimer();
+        this.gameInProgress = false;
+    }
+
     private dropBombs(actualTile: Tile): void {
 
         let tileIdxWithoutBombs = [];
         if (actualTile) {
             tileIdxWithoutBombs.push(actualTile.id);
-
 
             const surroundingContext = new SurroundingContext(this.nbCols, this.tiles.length, actualTile.id);
             tileIdxWithoutBombs.push(...surroundingContext.getDetectedIndexes());
@@ -284,16 +336,18 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
         while (tileWithBombs.length < this.bombCount) {
             let idx = Math.floor(Math.random() * this.tiles.length);
 
-            if (tileIdxWithoutBombs.includes(idx))
+            if (tileIdxWithoutBombs.includes(idx) || tileWithBombs.includes(idx))
                 continue;
 
-            this.tiles[idx].setBomb(true);
             tileWithBombs.push(idx);
+            this.tiles[idx].setBomb(true);
+            this.tilesWithBombs.push(this.tiles[idx]);
         }
 
         this.tiles.forEach(t => {
-            if (tileWithBombs.indexOf(t.id) == -1) {
+            if (t.hasBomb == false) {
                 t.surroundingBombCount = this.getSurroundingBombCount(t.id, tileWithBombs);
+                this.tilesEmpty.push(t);
             }
         }
         );

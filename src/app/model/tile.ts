@@ -16,6 +16,12 @@ export class Tile {
         return this._icon$;
     }
 
+    private _iconColor: BehaviorSubject<string> = new BehaviorSubject("white");
+    private _iconColor$ = this._iconColor.asObservable();
+    get iconColor$(): Observable<string> {
+        return this._iconColor$;
+    }
+
     private _hasBomb: boolean = false;
     public get hasBomb(): boolean {
         return this._hasBomb;
@@ -51,8 +57,10 @@ export class Tile {
         this.isRevealed = true;
         if (this.hasBomb) {
             this._icon.next("filter_tilt_shift");
+            this._iconColor.next("red");
         } else if (this.surroundingBombCount) {
             this._icon.next(`filter_${this.surroundingBombCount}`);
+            this._iconColor.next("white");
         } else {
             this._icon.next("filter_none");
         }
@@ -70,6 +78,7 @@ export class Tile {
         this._icon.next(level == LevelDetected.none ? "" :
             level == LevelDetected.flag ? "flag"
                 : "device_unknown");
+        this._iconColor.next("burlywood");
 
         //"filter_tilt_shift"
     }

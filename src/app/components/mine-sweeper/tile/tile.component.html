@@ -1,5 +1,1 @@
-<!-- <span *ngIf="(tile.hasBomb$ | async) == false">{{tile.id}}</span> -->
-<!-- <mat-icon *ngIf="tile.hasBomb$ | async">filter_tilt_shift</mat-icon> -->
-<mat-icon>{{tile.icon$ | async}}</mat-icon>
-<!-- <span>{{tile.id}}</span> -->
-<!-- <span>{{tile.surroundingBombCount}}</span> -->
+<mat-icon [style.color]="tile.iconColor$ | async">{{tile.icon$ | async}}</mat-icon>
