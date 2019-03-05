@@ -17,6 +17,9 @@ export class Tile {
     }
 
     private _hasBomb: boolean = false;
+    public get hasBomb(): boolean {
+        return this._hasBomb;
+    }
     private _hasBombSubject: BehaviorSubject<boolean> = new BehaviorSubject(this._hasBomb);
 
     private _hasBomb$ = this._hasBombSubject.asObservable();
@@ -46,12 +49,12 @@ export class Tile {
             return;
 
         this.isRevealed = true;
-        if (this._hasBomb) {
-            //blow();
+        if (this.hasBomb) {
+            this._icon.next("filter_tilt_shift");
         } else if (this.surroundingBombCount) {
             this._icon.next(`filter_${this.surroundingBombCount}`);
         } else {
-            this._icon.next("");
+            this._icon.next("filter_none");
         }
     }
 
