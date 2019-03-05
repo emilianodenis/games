@@ -10,6 +10,67 @@ import { AppBaseService } from 'src/app/service/app-base.service';
 
 export type AllowedOptions = "Easy" | "Beginner" | "Intermediate" | "Difficult" | "Advanced" | "Custom";
 
+export class SurroundingContext {
+
+  constructor(
+    private nbCols: number,
+    private totalCount: number,
+    private actualIndex: number,
+  ) {
+
+  }
+
+  public getDetectedIndexes(): number[] {
+    let idxArray = [];
+
+    const hasBottom = this.actualIndex < this.totalCount - this.nbCols;
+    const hasTop = this.actualIndex >= this.nbCols;
+    const hasLeft = this.actualIndex % this.nbCols > 0;
+    const hasRight = this.actualIndex % this.nbCols != this.nbCols - 1
+
+    const hasTopLeft = hasTop && hasLeft;
+    const hasTopRight = hasTop && hasRight;
+    const hasBottomLeft = hasBottom && hasLeft;
+    const hasBottomRight = hasBottom && hasRight;
+
+    if (hasTopLeft) {
+      idxArray.push(this.actualIndex - this.nbCols - 1);
+    }
+
+    if (hasTop) {
+      idxArray.push(this.actualIndex - this.nbCols);
+    }
+
+    if (hasTopRight) {
+      idxArray.push(this.actualIndex - this.nbCols + 1);
+    }
+
+    if (hasLeft) {
+      idxArray.push(this.actualIndex - 1);
+    }
+
+    if (hasRight) {
+      idxArray.push(this.actualIndex + 1);
+    }
+
+    if (hasBottomLeft) {
+      idxArray.push(this.actualIndex + this.nbCols - 1);
+    }
+
+    if (hasBottom) {
+      idxArray.push(this.actualIndex + this.nbCols);
+    }
+
+    if (hasBottomRight) {
+      idxArray.push(this.actualIndex + this.nbCols + 1);
+    }
+
+
+
+    return idxArray;
+  }
+}
+
 @Component({
   selector: 'ed-mine-sweeper',
   templateUrl: './mine-sweeper.component.html',
@@ -175,8 +236,17 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
     this.cd.detectChanges();
   }
 
+  public detect(tile: Tile, evt: MouseEvent): boolean {
+    evt.stopPropagation();
+    if (tile == undefined || !this.gameInProgress || tile.isRevealed)
+      return false;
+
+    tile.detect();
+    return false;
+  }
+
   public clickTile(tile: Tile): void {
-    if (!tile)
+    if (!tile || tile.isRevealed)
       return;
 
     if (!this.gameInProgress) {
@@ -184,64 +254,62 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
       this.resetTimer();
       this.dropBombs(tile);
     }
-    console.log(tile);
+    this.revealTile(tile);
+  }
+
+  private revealTile(tile: Tile): void {
+    if (tile == undefined || tile.isRevealed)
+      return;
+
+    tile.reveal();
+
+    if (tile.surroundingBombCount == 0) {
+      const tilesIdxToReveal = new SurroundingContext(this.nbCols, this.tiles.length, tile.id).getDetectedIndexes();
+      tilesIdxToReveal.forEach(idx => this.revealTile(this.tiles[idx]));
+    }
   }
 
   private dropBombs(actualTile: Tile): void {
-    let droppedBombs = 0;
 
-    let tileWithNoBombs = [];
+    let tileIdxWithoutBombs = [];
     if (actualTile) {
-      tileWithNoBombs.push(actualTile);
-      const hasBottom = actualTile.id < this.tiles.length - this.nbCols;
-      const hasTop = actualTile.id >= this.nbCols;
-      const hasLeft = actualTile.id % this.nbCols > 0;
-      const hasRight = actualTile.id % this.nbCols != this.nbCols - 1
+      tileIdxWithoutBombs.push(actualTile.id);
 
-      console.log(hasTop, hasRight, hasBottom, hasLeft);
 
-      if (hasBottom) {
-        tileWithNoBombs.push(this.tiles[actualTile.id + this.nbCols]);
-        if (hasLeft) {
-          tileWithNoBombs.push(this.tiles[actualTile.id + this.nbCols - 1]);
-        }
-        if (hasRight) {
-          tileWithNoBombs.push(this.tiles[actualTile.id + this.nbCols + 1]);
-        }
-      }
-
-      if (hasTop) {
-        tileWithNoBombs.push(this.tiles[actualTile.id - this.nbCols]);
-        if (hasLeft) {
-          tileWithNoBombs.push(this.tiles[actualTile.id - this.nbCols - 1]);
-        }
-        if (hasRight) {
-          tileWithNoBombs.push(this.tiles[actualTile.id - this.nbCols + 1]);
-        }
-      }
-
-      if (hasLeft) {
-        tileWithNoBombs.push(this.tiles[actualTile.id - 1]);
-      }
-
-      if (hasRight) {
-        tileWithNoBombs.push(this.tiles[actualTile.id + 1]);
-      }
-
-      tileWithNoBombs.sort((t1: Tile, t2: Tile) => t1.id - t2.id);
+      const surroundingContext = new SurroundingContext(this.nbCols, this.tiles.length, actualTile.id);
+      tileIdxWithoutBombs.push(...surroundingContext.getDetectedIndexes());
     }
 
-    while (droppedBombs < this.bombCount) {
+    let tileWithBombs = [];
+    while (tileWithBombs.length < this.bombCount) {
       let idx = Math.floor(Math.random() * this.tiles.length);
 
-      if (tileWithNoBombs.includes(this.tiles[idx]))
+      if (tileIdxWithoutBombs.includes(idx))
         continue;
 
       this.tiles[idx].setBomb(true);
-      ++droppedBombs;
+      tileWithBombs.push(idx);
     }
 
+    this.tiles.forEach(t => {
+      if (tileWithBombs.indexOf(t.id) == -1) {
+        t.surroundingBombCount = this.getSurroundingBombCount(t.id, tileWithBombs);
+      }
+    }
+    );
 
+    tileIdxWithoutBombs.forEach(idx => this.tiles[idx].reveal());
+  }
+
+  private getSurroundingBombCount(idx: number, idxWithBombs: number[]): number {
+    let surroundingBombCount = 0;
+    const surroundingIndxes = new SurroundingContext(this.nbCols, this.tiles.length, idx).getDetectedIndexes();
+    surroundingIndxes.forEach(i => {
+      if (idxWithBombs.indexOf(i) > -1) {
+        ++surroundingBombCount;
+      }
+    });
+    return surroundingBombCount;
   }
 
 }

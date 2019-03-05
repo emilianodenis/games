@@ -26,7 +26,7 @@
   <div [style.width.px]="gridWidth" [style.height.px]="gridHeight">
     <mat-grid-list [cols]="nbCols" [gutterSize]="0" [rowHeight]="rowHeight" class="fade-in">
 
-      <mat-grid-tile *ngFor="let t of tiles" (click)="clickTile(t)">
+      <mat-grid-tile *ngFor="let t of tiles" (click)="clickTile(t)" (contextmenu)="detect(t, $event)">
         <ed-tile [tile]="t"></ed-tile>
       </mat-grid-tile>
 
