@@ -9,6 +9,7 @@ import { TablePageComponent } from 'src/app/components/table-page/table-page.com
 import { TopMenuComponent } from 'src/app/components/top-menu/top-menu.component';
 import { AppMaterialModule } from 'src/app/module/app.material.module';
 import { TileComponent } from '../components/mine-sweeper/tile/tile.component';
+import { NotificationModalComponent } from '../components/notification-modal/notification-modal.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { TileComponent } from '../components/mine-sweeper/tile/tile.component';
     TileComponent,
     TablePageComponent,
     TopMenuComponent,
+    NotificationModalComponent,
   ],
   imports: [
     AppMaterialModule,
@@ -37,6 +39,9 @@ import { TileComponent } from '../components/mine-sweeper/tile/tile.component';
     TablePageComponent,
     TopMenuComponent,
   ],
-  entryComponents: [EditLetterComponent],
+  entryComponents: [
+    EditLetterComponent,
+    NotificationModalComponent,
+  ],
 })
 export class AppBaseFeaturesModule { }

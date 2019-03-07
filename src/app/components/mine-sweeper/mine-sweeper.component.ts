@@ -1,11 +1,13 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 import { Observable } from 'rxjs/internal/Observable';
 import { timer } from 'rxjs/internal/observable/timer';
 import { debounceTime } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/components/base-component';
 import { LevelDetected, Tile } from 'src/app/model/tile';
 import { AppBaseService } from 'src/app/service/app-base.service';
+import { NotificationModalComponent } from '../notification-modal/notification-modal.component';
 
 
 export type AllowedOptions = "Easy" | "Beginner" | "Intermediate" | "Difficult" | "Advanced" | "Custom";
@@ -132,6 +134,7 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
         private appService: AppBaseService,
         private cd: ChangeDetectorRef,
         private fb: FormBuilder,
+        private dialog: MatDialog,
     ) {
         super();
 
@@ -242,7 +245,7 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
 
     public detect(tile: Tile, evt: MouseEvent): boolean {
         evt.stopPropagation();
-        if (tile == undefined || !this.gameInProgress || tile.isRevealed)
+        if (tile == undefined || !this.gameInProgress || tile.canDetect == false)
             return false;
 
         tile.detect();
@@ -251,7 +254,9 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
             if (this.checkWiningConditions()) {
                 this.stopGame();
                 this.tilesWithBombs.forEach(t => t.isRevealed = true);
-                console.log(`you won boy! It only took you ${Math.floor((this.dateEnded.getTime() - this.dateStarted.getTime()) / 1000)} seconds`);
+                let content = `you won boy! It only took you ${Math.floor((this.dateEnded.getTime() - this.dateStarted.getTime()) / 1000)} seconds`;
+                let config = NotificationModalComponent.getDefaultConfig("Congratulation", content);
+                this.showGameEnd(true, config);
             }
         } else if (tile.currentDetectionLevel == LevelDetected.unknown) {
             let idx = this.tilesSuspected.indexOf(tile);
@@ -261,7 +266,7 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
     }
 
     public clickTile(tile: Tile): void {
-        if (!tile || tile.isRevealed)
+        if (!tile || tile.canReveal == false)
             return;
 
         if (!this.gameInProgress) {
@@ -271,7 +276,7 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
     }
 
     private revealTile(tile: Tile): void {
-        if (tile == undefined || tile.isRevealed || !this.gameInProgress)
+        if (tile == undefined || tile.canReveal == false || !this.gameInProgress)
             return;
 
         tile.reveal();
@@ -279,12 +284,16 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
         if (tile.hasBomb) {
             this.stopGame();
             this.tiles.forEach(t => t.reveal());
-            console.log(`you lost boy! after barely ${Math.floor((this.dateEnded.getTime() - this.dateStarted.getTime()) / 1000)} seconds`);
+            let content = `you lost boy! after barely ${Math.floor((this.dateEnded.getTime() - this.dateStarted.getTime()) / 1000)} seconds`;
+            let config = NotificationModalComponent.getDefaultConfig("Sorry", content);
+            this.showGameEnd(false, config);
             return;
         } else if (this.checkWiningConditions()) {
             this.stopGame();
             this.tilesWithBombs.forEach(t => t.isRevealed = true);
-            console.log(`you won boy! It only took you ${Math.floor((this.dateEnded.getTime() - this.dateStarted.getTime()) / 1000)} seconds`);
+            let content = `you won boy! It only took you ${Math.floor((this.dateEnded.getTime() - this.dateStarted.getTime()) / 1000)} seconds`;
+            let config = NotificationModalComponent.getDefaultConfig("Congratulation", content);
+            this.showGameEnd(true, config);
         }
 
         if (tile.surroundingBombCount == 0) {
@@ -362,6 +371,10 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
             }
         });
         return surroundingBombCount;
+    }
+
+    private showGameEnd(isSuccessful: boolean, config: MatDialogConfig): void {
+        this.dialog.open(NotificationModalComponent, config);
     }
 
 }

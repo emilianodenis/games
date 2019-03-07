@@ -38,6 +38,14 @@ export class Tile {
         return this._currentDetectionLevel;
     }
 
+    public get canReveal(): boolean {
+        return this.isRevealed == false && this.currentDetectionLevel == LevelDetected.none;
+    }
+
+    public get canDetect(): boolean {
+        return this.isRevealed == false;
+    }
+
     public isRevealed: boolean = false;
 
     constructor(
