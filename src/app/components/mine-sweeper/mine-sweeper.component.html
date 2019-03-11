@@ -1,11 +1,13 @@
 <form class="header" autocomplete="off" [formGroup]="form">
   <div class="side side-left">
-
+    <button mat-icon-button (click)="refresh()">
+      <mat-icon>refresh</mat-icon>
+    </button>
   </div>
 
   <mat-form-field class="center">
 
-    <mat-select placeholder="Level" formControlName="selectedOption">
+    <mat-select placeholder="Level" formControlName="selectOptionCtrl">
 
       <mat-option *ngFor="let option of allowedOptions" [value]="option">{{option}}</mat-option>
 

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { Observable } from 'rxjs/internal/Observable';
 import { timer } from 'rxjs/internal/observable/timer';
@@ -130,6 +130,10 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
     public tilesSuspected: Array<Tile>;
     public tilesEmpty: Array<Tile>;
 
+    public get selectOptionCtrl(): FormControl {
+        return <FormControl>this.form.get("selectOptionCtrl");
+    }
+
     constructor(
         private appService: AppBaseService,
         private cd: ChangeDetectorRef,
@@ -139,20 +143,18 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
         super();
 
         this.form = fb.group({
-            selectedOption: [this.currentOption, Validators.required],
+            selectOptionCtrl: [this.currentOption, Validators.required],
         });
 
         this.subscriptions.push(
-            this.form
-                .get("selectedOption")
+            this.selectOptionCtrl
                 .valueChanges
                 .subscribe(opt => this.handleLevelChange(opt))
         );
     }
 
     ngOnInit() {
-        setTimeout(() => this.form
-            .get("selectedOption")
+        setTimeout(() => this.selectOptionCtrl
             .setValue(this.easyOption), 0);
         this.subscriptions
             .push(
@@ -164,6 +166,10 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
                     }
                     )
             );
+    }
+
+    public refresh(): void {
+        this.handleLevelChange(this.selectOptionCtrl.value)
     }
 
     private resetTimer(): void {
