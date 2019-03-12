@@ -254,17 +254,20 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
         if (tile == undefined || !this.gameInProgress || tile.canDetect == false)
             return false;
 
-        tile.detect();
-        if (tile.currentDetectionLevel == LevelDetected.flag) {
-            this.tilesSuspected.push(tile);
+        let newTile = tile.detect();
+
+        this.setTile(newTile);
+
+        if (newTile.currentDetectionLevel == LevelDetected.flag) {
+            this.tilesSuspected.push(newTile);
             if (this.checkWiningConditions()) {
                 this.stopGame();
-                this.tilesWithBombs.forEach(t => t.isRevealed = true);
+                //this.tilesWithBombs.forEach(t => t.isRevealed = true);
                 let content = `you won boy! It only took you ${Math.floor((this.dateEnded.getTime() - this.dateStarted.getTime()) / 1000)} seconds`;
                 let config = NotificationModalComponent.getDefaultConfig("Congratulation", content);
                 this.showGameEnd(true, config);
             }
-        } else if (tile.currentDetectionLevel == LevelDetected.unknown) {
+        } else if (newTile.currentDetectionLevel == LevelDetected.unknown) {
             let idx = this.tilesSuspected.indexOf(tile);
             this.tilesSuspected.splice(idx, 1);
         }
@@ -285,18 +288,23 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
         if (tile == undefined || tile.canReveal == false || !this.gameInProgress)
             return;
 
-        tile.reveal();
+
+        let newTile = tile.reveal();
+        this.setTile(newTile);
+
+        //this.tiles[tile.id] = tile.reveal();
 
         if (tile.hasBomb) {
             this.stopGame();
-            this.tiles.forEach(t => t.reveal());
+            this.tiles.forEach(t => this.setTile(t.reveal()));
             let content = `you lost boy! after barely ${Math.floor((this.dateEnded.getTime() - this.dateStarted.getTime()) / 1000)} seconds`;
             let config = NotificationModalComponent.getDefaultConfig("Sorry", content);
             this.showGameEnd(false, config);
             return;
         } else if (this.checkWiningConditions()) {
             this.stopGame();
-            this.tilesWithBombs.forEach(t => t.isRevealed = true);
+            this.revealBombs();
+            //this.tilesWithBombs.forEach(t => t.isRevealed = true);
             let content = `you won boy! It only took you ${Math.floor((this.dateEnded.getTime() - this.dateStarted.getTime()) / 1000)} seconds`;
             let config = NotificationModalComponent.getDefaultConfig("Congratulation", content);
             this.showGameEnd(true, config);
@@ -305,6 +313,32 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
         if (tile.surroundingBombCount == 0) {
             const tilesIdxToReveal = new SurroundingContext(this.nbCols, this.tiles.length, tile.id).getDetectedIndexes();
             tilesIdxToReveal.forEach(idx => this.revealTile(this.tiles[idx]));
+        }
+    }
+
+    private setTile(tile: Tile): void {
+        if (tile == undefined)
+            return;
+
+        this.tiles[tile.id] = tile;
+
+        let idx = this.tilesEmpty.findIndex(t => t.id == tile.id);
+        if (idx > -1) {
+            this.tilesEmpty[idx] = tile;
+        }
+
+        if (tile.hasBomb == true) {
+
+            idx = this.tilesWithBombs.findIndex(t => t.id == tile.id);
+            if (idx > -1) {
+                this.tilesWithBombs[idx] = tile;
+            }
+        }
+    }
+
+    private revealBombs(): void {
+        for (let i = 0; i < this.tilesWithBombs.length; i++) {
+            this.tilesWithBombs[i] = this.tilesWithBombs[i].reveal();
         }
     }
 

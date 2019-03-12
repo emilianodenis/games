@@ -13,6 +13,8 @@ export class TileComponent implements OnInit {
 
   @Input('tile') tile: Tile;
 
+  public levelDetected = LevelDetected
+
   constructor(
     private cd: ChangeDetectorRef,
   ) {
