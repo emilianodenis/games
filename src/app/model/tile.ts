@@ -1,5 +1,3 @@
-import { BehaviorSubject } from "rxjs/internal/BehaviorSubject";
-import { Observable } from "rxjs/internal/Observable";
 
 export enum LevelDetected {
     none = 0,
@@ -9,14 +7,21 @@ export enum LevelDetected {
 
 export class Tile {
 
-    public surroundingBombCount: number = 0;
+    public get id(): number {
+        return this._id;
+    }
 
-    public _hasBomb: boolean = false;
+    public get surroundingBombCount(): number {
+        return this._surroundingBombCount;
+    }
+
     public get hasBomb(): boolean {
         return this._hasBomb;
     }
+    public get isRevealed(): boolean {
+        return this._isRevealed;
+    }
 
-    private _currentDetectionLevel = LevelDetected.none;
     public get currentDetectionLevel(): LevelDetected {
         return this._currentDetectionLevel;
     }
@@ -29,45 +34,35 @@ export class Tile {
         return this.isRevealed == false;
     }
 
-    public isRevealed: boolean = false;
-
     constructor(
-        public id: number,
+        private readonly _id: number,
+        private readonly _hasBomb: boolean = false,
+        private readonly _currentDetectionLevel: number = LevelDetected.none,
+        private readonly _isRevealed: boolean = false,
+        private readonly _surroundingBombCount: number = 0,
     ) {
 
     }
 
-    public setBomb(hasBomb: boolean): void {
-        this._hasBomb = hasBomb;
+    public setBomb(hasBomb: boolean): Tile {
+        return new Tile(this.id, hasBomb, this.currentDetectionLevel, this.isRevealed, this.surroundingBombCount);
     }
 
     public setSurroundingBombCount(bombCount: number): Tile {
-        let tile = new Tile(this.id);
-        Object.assign(tile, this);
-        Object.assign(tile, { _surroundingBombCount: bombCount });
-        return this;
+        return new Tile(this.id, this.hasBomb, this.currentDetectionLevel, this.isRevealed, bombCount);
     }
 
     public reveal(): Tile {
         if (this.isRevealed)
             return this;
 
-        let tile = new Tile(this.id);
-        Object.assign(tile, this);
-        Object.assign(tile, { isRevealed: true, _currentDetectionLevel: LevelDetected.none });
-        return tile;
+        return new Tile(this.id, this.hasBomb, this.currentDetectionLevel, true, this.surroundingBombCount);
     }
 
     public detect(): Tile {
         if (this.isRevealed)
             return this;
 
-        let detectionLevel = (this._currentDetectionLevel + 1) % 3;
-
-        let tile = new Tile(this.id);
-        Object.assign(tile, this);
-        Object.assign(tile, { _currentDetectionLevel: detectionLevel });
-        return tile;
-
+        return new Tile(this.id, this.hasBomb, (this._currentDetectionLevel + 1) % 3, this.isRevealed, this.surroundingBombCount);
     }
 }
