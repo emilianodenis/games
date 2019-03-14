@@ -1,6 +1,6 @@
 <ng-container *ngIf="tile != undefined">
 
-    <div *ngIf="tile.isRevealed" style="background-color: cadetblue;" class="tile-display">
+    <div *ngIf="tile.isRevealed" class="tile-display revealed-tile">
         <ng-container *ngIf="tile._hasBomb">
             <mat-icon style="color: red;">filter_tilt_shift</mat-icon>
         </ng-container>

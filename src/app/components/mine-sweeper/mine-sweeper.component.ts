@@ -168,6 +168,13 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
             );
     }
 
+    public trackByTileId(index: number, tile: Tile): number {
+        if (tile == undefined)
+            return index;
+
+        return tile.id;
+    }
+
     public refresh(): void {
         this.handleLevelChange(this.selectOptionCtrl.value)
     }

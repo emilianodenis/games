@@ -14,3 +14,18 @@
     align-items: center;
     justify-content: center;
 }
+
+@keyframes reveailTileAnimation {
+    from {
+        background-color: transparent;
+    }
+    to {
+        background-color: cadetblue;
+    }
+}
+
+.revealed-tile {
+    background-color: cadetblue;
+    animation-name: reveailTileAnimation;
+    animation-duration: 0.5s;
+}
