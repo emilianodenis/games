@@ -1,10 +1,10 @@
 <ng-container *ngIf="tile != undefined">
 
     <div *ngIf="tile.isRevealed" class="tile-display revealed-tile">
-        <ng-container *ngIf="tile._hasBomb">
+        <ng-container *ngIf="tile.hasBomb">
             <mat-icon style="color: red;">filter_tilt_shift</mat-icon>
         </ng-container>
-        <ng-container *ngIf="tile._hasBomb == false">
+        <ng-container *ngIf="tile.hasBomb == false">
             <div *ngIf="tile.surroundingBombCount > 0">
                 {{tile.surroundingBombCount}}
             </div>
@@ -17,7 +17,7 @@
     </div>
 
     <div *ngIf="tile.currentDetectionLevel == levelDetected.unknown" class="tile-display" style="color: burlywood">
-        <mat-icon>device_unknown</mat-icon>
+        <mat-icon>help_outline</mat-icon>
     </div>
 
 
