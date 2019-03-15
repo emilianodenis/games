@@ -59,6 +59,13 @@ export class Tile {
         return new Tile(this.id, this.hasBomb, this.currentDetectionLevel, true, this.surroundingBombCount);
     }
 
+    public unHide(): Tile {
+        if (this.isRevealed && this.hasBomb == false)
+            return this;
+
+        return new Tile(this.id, this.hasBomb, LevelDetected.none, true, this.surroundingBombCount);
+    }
+
     public detect(): Tile {
         if (this.isRevealed)
             return this;

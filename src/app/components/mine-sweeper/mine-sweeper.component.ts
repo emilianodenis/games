@@ -297,7 +297,7 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
 
         if (tile.hasBomb) {
             this.stopGame();
-            this.tiles.forEach(t => this.setTile(t.reveal()));
+            this.tiles.forEach(t => this.setTile(t.unHide()));
             let content = `you lost boy! after barely ${Math.floor((this.dateEnded.getTime() - this.dateStarted.getTime()) / 1000)} seconds`;
             let config = NotificationModalComponent.getDefaultConfig("Sorry", content);
             this.showGameEnd(false, config);
@@ -336,9 +336,7 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
     }
 
     private revealBombs(): void {
-        for (let i = 0; i < this.tilesWithBombs.length; i++) {
-            this.tilesWithBombs[i] = this.tilesWithBombs[i].reveal();
-        }
+        this.tilesWithBombs.forEach(t => this.setTile(t.unHide()));
     }
 
     private checkWiningConditions(): boolean {
