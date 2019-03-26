@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { AboutComponent } from 'src/app/components/about/about.component';
 import { CardListComponent } from 'src/app/components/card-list/card-list.component';
 import { CardPageComponent } from 'src/app/components/card-page/card-page.component';
@@ -26,6 +27,7 @@ import { NotificationModalComponent } from '../components/notification-modal/not
   ],
   imports: [
     AppMaterialModule,
+    RouterModule,
   ],
   exports: [
     AppMaterialModule,
