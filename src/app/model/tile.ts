@@ -1,39 +1,27 @@
-import { BehaviorSubject } from "rxjs/internal/BehaviorSubject";
-import { Observable } from "rxjs/internal/Observable";
 
 export enum LevelDetected {
     none = 0,
     flag = 1,
     unknown = 2
 }
+
 export class Tile {
 
-    public surroundingBombCount: number = 0;
-
-    private _icon: BehaviorSubject<string> = new BehaviorSubject(undefined);
-    private _icon$ = this._icon.asObservable();
-    get icon$(): Observable<string> {
-        return this._icon$;
+    public get id(): number {
+        return this._id;
     }
 
-    private _iconColor: BehaviorSubject<string> = new BehaviorSubject("white");
-    private _iconColor$ = this._iconColor.asObservable();
-    get iconColor$(): Observable<string> {
-        return this._iconColor$;
+    public get surroundingBombCount(): number {
+        return this._surroundingBombCount;
     }
 
-    private _hasBomb: boolean = false;
     public get hasBomb(): boolean {
         return this._hasBomb;
     }
-    private _hasBombSubject: BehaviorSubject<boolean> = new BehaviorSubject(this._hasBomb);
-
-    private _hasBomb$ = this._hasBombSubject.asObservable();
-    get hasBomb$(): Observable<boolean> {
-        return this._hasBomb$;
+    public get isRevealed(): boolean {
+        return this._isRevealed;
     }
 
-    private _currentDetectionLevel = LevelDetected.none;
     public get currentDetectionLevel(): LevelDetected {
         return this._currentDetectionLevel;
     }
@@ -46,48 +34,42 @@ export class Tile {
         return this.isRevealed == false;
     }
 
-    public isRevealed: boolean = false;
-
     constructor(
-        public id: number,
+        private readonly _id: number,
+        private readonly _hasBomb: boolean = false,
+        private readonly _currentDetectionLevel: number = LevelDetected.none,
+        private readonly _isRevealed: boolean = false,
+        private readonly _surroundingBombCount: number = 0,
     ) {
+
     }
 
-    public setBomb(hasBomb: boolean): void {
-        this._hasBomb = hasBomb;
-        this._hasBombSubject.next(this._hasBomb);
+    public setBomb(hasBomb: boolean): Tile {
+        return new Tile(this.id, hasBomb, this.currentDetectionLevel, this.isRevealed, this.surroundingBombCount);
     }
 
-    public reveal(): void {
+    public setSurroundingBombCount(bombCount: number): Tile {
+        return new Tile(this.id, this.hasBomb, this.currentDetectionLevel, this.isRevealed, bombCount);
+    }
+
+    public reveal(): Tile {
         if (this.isRevealed)
-            return;
+            return this;
 
-        this.isRevealed = true;
-        if (this.hasBomb) {
-            this._icon.next("filter_tilt_shift");
-            this._iconColor.next("red");
-        } else if (this.surroundingBombCount) {
-            this._icon.next(`filter_${this.surroundingBombCount}`);
-            this._iconColor.next("white");
-        } else {
-            this._icon.next("filter_none");
-        }
+        return new Tile(this.id, this.hasBomb, this.currentDetectionLevel, true, this.surroundingBombCount);
     }
 
-    public detect(): void {
+    public unHide(): Tile {
+        if (this.isRevealed && this.hasBomb == false)
+            return this;
+
+        return new Tile(this.id, this.hasBomb, LevelDetected.none, true, this.surroundingBombCount);
+    }
+
+    public detect(): Tile {
         if (this.isRevealed)
-            return;
+            return this;
 
-        this._currentDetectionLevel = (this._currentDetectionLevel + 1) % 3;
-        this.handleIcon(this._currentDetectionLevel);
-    }
-
-    private handleIcon(level: LevelDetected): void {
-        this._icon.next(level == LevelDetected.none ? "" :
-            level == LevelDetected.flag ? "flag"
-                : "device_unknown");
-        this._iconColor.next("burlywood");
-
-        //"filter_tilt_shift"
+        return new Tile(this.id, this.hasBomb, (this._currentDetectionLevel + 1) % 3, this.isRevealed, this.surroundingBombCount);
     }
 }
