@@ -5,6 +5,7 @@ import { CardPageComponent } from 'src/app/components/card-page/card-page.compon
 import { HomeComponent } from 'src/app/components/home/home.component';
 import { MineSweeperComponent } from 'src/app/components/mine-sweeper/mine-sweeper.component';
 import { TablePageComponent } from 'src/app/components/table-page/table-page.component';
+import { BasePuzzleComponent } from './components/base-puzzle/base-puzzle.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,10 @@ const routes: Routes = [
   {
     path: "minesweeper",
     component: MineSweeperComponent
+  },
+  {
+    path: "basepuzzle",
+    component: BasePuzzleComponent
   },
   {
     path: "**",

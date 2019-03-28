@@ -11,10 +11,12 @@ import { TopMenuComponent } from 'src/app/components/top-menu/top-menu.component
 import { AppMaterialModule } from 'src/app/module/app.material.module';
 import { TileComponent } from '../components/mine-sweeper/tile/tile.component';
 import { NotificationModalComponent } from '../components/notification-modal/notification-modal.component';
+import { BasePuzzleComponent } from '../components/base-puzzle/base-puzzle.component';
 
 @NgModule({
   declarations: [
     AboutComponent,
+    BasePuzzleComponent,
     CardListComponent,
     CardPageComponent,
     EditLetterComponent,
@@ -32,6 +34,7 @@ import { NotificationModalComponent } from '../components/notification-modal/not
   exports: [
     AppMaterialModule,
     AboutComponent,
+    BasePuzzleComponent,
     CardListComponent,
     CardPageComponent,
     EditLetterComponent,

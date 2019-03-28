@@ -1,0 +1,38 @@
+<form class="header" autocomplete="off" [formGroup]="form">
+  <div class="side side-left">
+    <button mat-icon-button (click)="refresh()">
+      <mat-icon>refresh</mat-icon>
+    </button>
+  </div>
+
+  <mat-form-field class="center">
+
+    <mat-select placeholder="Level" formControlName="selectOptionCtrl">
+
+      <mat-option *ngFor="let option of allowedOptions" [value]="option">{{option}}</mat-option>
+
+    </mat-select>
+
+  </mat-form-field>
+
+  <div class="side side-right">
+    <ng-container *ngIf="gameInProgress">
+      <div class="left-spacer">
+        {{ math.floor((timer$ | async) / 60 / 24) | number: '2.0-0'}}:{{ math.floor((timer$ | async) / 60) | number:
+      '2.0-0'}}:{{((timer$ | async) % 60) | number: '2.0-0' }}
+      </div>
+    </ng-container>
+  </div>
+</form>
+
+<div #grid class="outer-grid">
+  <div [style.width.px]="gridWidth" [style.height.px]="gridHeight">
+    <mat-grid-list [cols]="nbCols" [gutterSize]="0" [rowHeight]="rowHeight" class="fade-in">
+
+      <mat-grid-tile *ngFor="let t of tiles; trackBy: trackByTileId" (click)="clickTile(t)" (contextmenu)="clickTile(t, $event)" matRipple>
+        <!-- <ed-tile [tile]="t"></ed-tile> -->
+      </mat-grid-tile>
+
+    </mat-grid-list>
+  </div>
+</div>
