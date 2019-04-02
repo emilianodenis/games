@@ -278,9 +278,8 @@ export class BasePuzzleComponent extends BaseComponent implements OnInit {
     for (let i = 0; i < nbShuffles; i++) {
       var array = new Uint8Array(this.clickableTiles.length);
       window.crypto.getRandomValues(array);
-      let tileIdx = array[0] % this.clickableTiles.length; //Math.floor(Math.random() * this.clickableTiles.length);
-      console.log(tileIdx, this.clickableTiles.length);
-      this.swapTiles(this.emptyTile, this.tiles[tileIdx]);
+      let tileIdx = array[0] % this.clickableTiles.length;
+      this.swapTiles(this.emptyTile, this.clickableTiles[tileIdx]);
       this.calculateClickableTiles();
     }
 
