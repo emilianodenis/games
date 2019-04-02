@@ -8,6 +8,7 @@ import { BaseTile } from 'src/app/model/base-tile';
 import { AppBaseService } from 'src/app/service/app-base.service';
 import { BaseComponent } from '../base-component';
 import { AllowedOptions } from '../mine-sweeper/mine-sweeper.component';
+import { take } from 'rxjs/internal/operators/take';
 
 @Component({
   selector: 'ed-base-puzzle',
@@ -124,31 +125,31 @@ export class BasePuzzleComponent extends BaseComponent implements OnInit {
     this.stopTimer();
 
     if (level == this.easyOption) {
-      this.setSize(3, 3);
+      this.setSize(3, 3, 120);
     } else if (level == this.beginnerOption) {
-      this.setSize(4, 4);
+      this.setSize(4, 4, 240);
     } else if (level == this.intermediateOption) {
-      this.setSize(5, 5);
+      this.setSize(5, 5, 360);
     } else if (level == this.difficultOption) {
-      this.setSize(6, 5);
+      this.setSize(6, 5, 480);
     } else if (level == this.advancedOption) {
-      this.setSize(6, 6);
+      this.setSize(6, 6, 600);
     } else {
-      this.setSize(7, 7);
+      this.setSize(7, 7, 720);
     }
   }
 
 
-  private setSize(nbCols: number, nbRows: number): void {
+  private setSize(nbCols: number, nbRows: number, shuffleCount: number): void {
     this.setCols(nbCols);
     this.setRows(nbRows);
 
-    this.generateTiles(nbCols, nbRows);
+    this.generateTiles(nbCols, nbRows, shuffleCount);
 
     this.manageDimensions();
   }
 
-  private generateTiles(nbCols: number, nbRows: number): void {
+  private generateTiles(nbCols: number, nbRows: number, shuffleCount: number): void {
 
     let tileCount = nbCols * nbRows - 1;
 
@@ -161,7 +162,7 @@ export class BasePuzzleComponent extends BaseComponent implements OnInit {
     this.tiles = tiles;
 
     this.clickableTiles = this.getClickableTiles();
-    this.shuffleTiles(this.selectOptionCtrl.value);
+    this.shuffleTiles(shuffleCount);
   }
 
   private setRows(nbRows: number): void {
@@ -254,37 +255,15 @@ export class BasePuzzleComponent extends BaseComponent implements OnInit {
     this.tiles[idx_2] = tile_1;
   }
 
-  private shuffleTiles(level: AllowedOptions): void {
-
-    if (level == undefined)
-      return;
-
-    let nbShuffles: number = 0;
-
-    if (level == this.easyOption) {
-      nbShuffles = 30;
-    } else if (level == this.beginnerOption) {
-      nbShuffles = 60;
-    } else if (level == this.intermediateOption) {
-      nbShuffles = 90;
-    } else if (level == this.difficultOption) {
-      nbShuffles = 120;
-    } else if (level == this.advancedOption) {
-      nbShuffles = 150;
-    } else {
-      nbShuffles = 180;
-    }
-
-    for (let i = 0; i < nbShuffles; i++) {
-      var array = new Uint8Array(1);
-      window.crypto.getRandomValues(array);
-      let tileIdx = array[0] % this.clickableTiles.length;
-      this.swapTiles(this.emptyTile, this.clickableTiles[tileIdx]);
-      this.calculateClickableTiles();
-    }
-
-
-
+  private shuffleTiles(shuffleCount: number): void {
+    timer(0, Math.floor(5000 / shuffleCount))
+      .pipe(take(shuffleCount))
+      .subscribe(() => {
+        let tileIdx = Math.floor(Math.random() * this.clickableTiles.length);
+        this.swapTiles(this.emptyTile, this.clickableTiles[tileIdx]);
+        this.calculateClickableTiles();
+        this.cd.detectChanges();
+      });
   }
 
 }
