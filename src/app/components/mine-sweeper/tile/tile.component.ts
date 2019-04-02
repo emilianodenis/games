@@ -1,7 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { Tile, LevelDetected } from 'src/app/model/tile';
-import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
-import { Observable } from 'rxjs/internal/Observable';
+import { LevelDetected, MinesweeperTile } from 'src/app/model/minesweeper-tile';
 
 @Component({
   selector: 'ed-tile',
@@ -11,7 +9,7 @@ import { Observable } from 'rxjs/internal/Observable';
 })
 export class TileComponent implements OnInit {
 
-  @Input('tile') tile: Tile;
+  @Input('tile') tile: MinesweeperTile;
 
   public levelDetected = LevelDetected
 

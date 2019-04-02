@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { timer } from 'rxjs/internal/observable/timer';
 import { debounceTime } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/components/base-component';
-import { LevelDetected, Tile } from 'src/app/model/tile';
+import { LevelDetected, MinesweeperTile } from 'src/app/model/minesweeper-tile';
 import { AppBaseService } from 'src/app/service/app-base.service';
 import { NotificationModalComponent } from '../notification-modal/notification-modal.component';
 
@@ -120,13 +120,13 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
     public gridWidth: number;
     public gridHeight: number;
 
-    public tiles: Array<Tile>;
+    public tiles: Array<MinesweeperTile>;
 
     public seconds: number = 0;
 
-    public tilesWithBombs: Array<Tile>;
-    public tilesSuspected: Array<Tile>;
-    public tilesEmpty: Array<Tile>;
+    public tilesWithBombs: Array<MinesweeperTile>;
+    public tilesSuspected: Array<MinesweeperTile>;
+    public tilesEmpty: Array<MinesweeperTile>;
 
     public get selectOptionCtrl(): FormControl {
         return <FormControl>this.form.get("selectOptionCtrl");
@@ -166,7 +166,7 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
             );
     }
 
-    public trackByTileId(index: number, tile: Tile): number {
+    public trackByTileId(index: number, tile: MinesweeperTile): number {
         if (tile == undefined)
             return index;
 
@@ -193,18 +193,16 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
 
         if (level == this.easyOption) {
             this.setSize(9, 9, 10);
-        } else if (level == this.easyOption) {
-            this.setSize(12, 12, 15);
         } else if (level == this.beginnerOption) {
-            this.setSize(16, 12, 20);
+            this.setSize(12, 12, 15);
         } else if (level == this.intermediateOption) {
-            this.setSize(20, 12, 30);
+            this.setSize(16, 12, 20);
         } else if (level == this.difficultOption) {
-            this.setSize(25, 14, 50);
+            this.setSize(20, 12, 30);
         } else if (level == this.advancedOption) {
-            this.setSize(30, 16, 100);
+            this.setSize(25, 14, 50);
         } else {
-            this.setSize(35, 20, 150);
+            this.setSize(30, 16, 100);
         }
     }
 
@@ -224,7 +222,7 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
         for (let i = 0; i < nbRows; i++) {
 
             for (let j = 0; j < nbCols; j++) {
-                tiles.push(new Tile(i * nbCols + j));
+                tiles.push(new MinesweeperTile(i * nbCols + j));
             }
 
         }
@@ -254,7 +252,7 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
         this.cd.detectChanges();
     }
 
-    public detect(tile: Tile, evt: MouseEvent): boolean {
+    public detect(tile: MinesweeperTile, evt: MouseEvent): boolean {
         evt.stopPropagation();
         if (tile == undefined || !this.gameInProgress || tile.canDetect == false)
             return false;
@@ -278,7 +276,7 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
         return false;
     }
 
-    public clickTile(tile: Tile): void {
+    public clickTile(tile: MinesweeperTile): void {
         if (!tile || tile.canReveal == false)
             return;
 
@@ -288,7 +286,7 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
         this.revealTile(tile);
     }
 
-    private revealTile(tile: Tile): void {
+    private revealTile(tile: MinesweeperTile): void {
         if (tile == undefined || tile.canReveal == false || !this.gameInProgress)
             return;
 
@@ -316,7 +314,7 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
         }
     }
 
-    private setTile(tile: Tile): void {
+    private setTile(tile: MinesweeperTile): void {
         if (tile == undefined)
             return;
 
@@ -352,7 +350,7 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
         return true;
     }
 
-    private generateGame(tile: Tile): void {
+    private generateGame(tile: MinesweeperTile): void {
         this.gameInProgress = true;
         this.resetTimer();
         this.tilesWithBombs = [];
@@ -368,7 +366,7 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
         this.gameInProgress = false;
     }
 
-    private dropBombs(actualTile: Tile): void {
+    private dropBombs(actualTile: MinesweeperTile): void {
 
         let tileIdxWithoutBombs = [];
         if (actualTile) {

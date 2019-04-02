@@ -5,7 +5,7 @@ export enum LevelDetected {
     unknown = 2
 }
 
-export class Tile {
+export class MinesweeperTile {
 
     public get id(): number {
         return this._id;
@@ -44,32 +44,32 @@ export class Tile {
 
     }
 
-    public setBomb(hasBomb: boolean): Tile {
-        return new Tile(this.id, hasBomb, this.currentDetectionLevel, this.isRevealed, this.surroundingBombCount);
+    public setBomb(hasBomb: boolean): MinesweeperTile {
+        return new MinesweeperTile(this.id, hasBomb, this.currentDetectionLevel, this.isRevealed, this.surroundingBombCount);
     }
 
-    public setSurroundingBombCount(bombCount: number): Tile {
-        return new Tile(this.id, this.hasBomb, this.currentDetectionLevel, this.isRevealed, bombCount);
+    public setSurroundingBombCount(bombCount: number): MinesweeperTile {
+        return new MinesweeperTile(this.id, this.hasBomb, this.currentDetectionLevel, this.isRevealed, bombCount);
     }
 
-    public reveal(): Tile {
+    public reveal(): MinesweeperTile {
         if (this.isRevealed)
             return this;
 
-        return new Tile(this.id, this.hasBomb, this.currentDetectionLevel, true, this.surroundingBombCount);
+        return new MinesweeperTile(this.id, this.hasBomb, this.currentDetectionLevel, true, this.surroundingBombCount);
     }
 
-    public unHide(): Tile {
+    public unHide(): MinesweeperTile {
         if (this.isRevealed && this.hasBomb == false)
             return this;
 
-        return new Tile(this.id, this.hasBomb, LevelDetected.none, true, this.surroundingBombCount);
+        return new MinesweeperTile(this.id, this.hasBomb, LevelDetected.none, true, this.surroundingBombCount);
     }
 
-    public detect(): Tile {
+    public detect(): MinesweeperTile {
         if (this.isRevealed)
             return this;
 
-        return new Tile(this.id, this.hasBomb, (this._currentDetectionLevel + 1) % 3, this.isRevealed, this.surroundingBombCount);
+        return new MinesweeperTile(this.id, this.hasBomb, (this._currentDetectionLevel + 1) % 3, this.isRevealed, this.surroundingBombCount);
     }
 }

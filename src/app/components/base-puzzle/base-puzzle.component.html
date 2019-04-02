@@ -3,6 +3,7 @@
     <button mat-icon-button (click)="refresh()">
       <mat-icon>refresh</mat-icon>
     </button>
+    <span *ngFor="let t of clickableTiles" style="color: gray;">{{t.id}} ;</span>
   </div>
 
   <mat-form-field class="center">
@@ -29,8 +30,8 @@
   <div [style.width.px]="gridWidth" [style.height.px]="gridHeight">
     <mat-grid-list [cols]="nbCols" [gutterSize]="0" [rowHeight]="rowHeight" class="fade-in">
 
-      <mat-grid-tile *ngFor="let t of tiles; trackBy: trackByTileId" (click)="clickTile(t)" (contextmenu)="clickTile(t, $event)" matRipple>
-        <!-- <ed-tile [tile]="t"></ed-tile> -->
+      <mat-grid-tile *ngFor="let t of tiles" (click)="clickTile(t)" (contextmenu)="clickTile(t, $event)" [class.empty-tile]="t === emptyTile" matRipple>
+        {{t?.id}}
       </mat-grid-tile>
 
     </mat-grid-list>
