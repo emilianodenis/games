@@ -20,8 +20,9 @@
       <div>Total: {{tilesWithBombs?.length}}</div>
       <div class="left-spacer">Found: {{tilesSuspected.length}}</div>
       <div class="left-spacer">
-        {{ math.floor((timer$ | async) / 60 / 24) | number: '2.0-0'}}:{{ math.floor((timer$ | async) / 60) | number:
-      '2.0-0'}}:{{((timer$ | async) % 60) | number: '2.0-0' }}
+        <base-timer></base-timer>
+        <!-- {{ math.floor((timer$ | async) / 60 / 24) | number: '2.0-0'}}:{{ math.floor((timer$ | async) / 60) | number:
+      '2.0-0'}}:{{((timer$ | async) % 60) | number: '2.0-0' }} -->
       </div>
     </ng-container>
   </div>

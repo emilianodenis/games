@@ -8,6 +8,7 @@ export enum LevelDetected {
 export class MineSweeperTile {
 
     public get id(): number {
+        console.log("getting " + this._id);
         return this._id;
     }
 

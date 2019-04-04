@@ -83,9 +83,9 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
 
     private static MineSweeperTimerKey = "MineSweeperTimerKey";
 
-    public math = Math;
+    // public math = Math;
 
-    public timer$: Observable<number>;
+    // public timer$: Observable<number>;
 
     public gameInProgress: boolean = false;
 
@@ -177,9 +177,9 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
         this.handleLevelChange(this.selectOptionCtrl.value)
     }
 
-    private resetTimer(): void {
-        this.timer$ = timer(0, 1000);
-    }
+    // private resetTimer(): void {
+    //     this.timer$ = timer(0, 1000);
+    // }
 
     private stopTimer(): void {
         this.gameInProgress = false;
@@ -352,7 +352,7 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
 
     private generateGame(tile: MineSweeperTile): void {
         this.gameInProgress = true;
-        this.resetTimer();
+        // this.resetTimer();
         this.tilesWithBombs = [];
         this.tilesSuspected = [];
         this.tilesEmpty = [];
@@ -362,7 +362,7 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
 
     private stopGame(): void {
         this.dateEnded = new Date();
-        this.resetTimer();
+        // this.resetTimer();
         this.gameInProgress = false;
     }
 

@@ -1,5 +1,7 @@
 ng g c components/base-puzzle --module=module/app.base-features.module.ts
 
+ng g c components/base-timer --module=module/app.base-features.module.ts
+
 ng g c components/base-puzzle/base-puzzle-tile --module=module/app.base-features.module.ts
 
 
