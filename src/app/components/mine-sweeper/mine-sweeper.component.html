@@ -33,7 +33,7 @@
     <mat-grid-list [cols]="nbCols" [gutterSize]="0" [rowHeight]="rowHeight" class="fade-in">
 
       <mat-grid-tile *ngFor="let t of tiles; trackBy: trackByTileId" (click)="clickTile(t)" (contextmenu)="detect(t, $event)" matRipple>
-        <ed-tile [tile]="t"></ed-tile>
+        <minesweeper-tile [tile]="t"></minesweeper-tile>
       </mat-grid-tile>
 
     </mat-grid-list>

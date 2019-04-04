@@ -9,7 +9,7 @@ import { MineSweeperComponent } from 'src/app/components/mine-sweeper/mine-sweep
 import { TablePageComponent } from 'src/app/components/table-page/table-page.component';
 import { TopMenuComponent } from 'src/app/components/top-menu/top-menu.component';
 import { AppMaterialModule } from 'src/app/module/app.material.module';
-import { TileComponent } from '../components/mine-sweeper/tile/tile.component';
+import { MineSweeperTileComponent } from '../components/mine-sweeper/mine-sweeper-tile/minesweeper-tile.component';
 import { NotificationModalComponent } from '../components/notification-modal/notification-modal.component';
 import { BasePuzzleComponent } from '../components/base-puzzle/base-puzzle.component';
 
@@ -22,7 +22,7 @@ import { BasePuzzleComponent } from '../components/base-puzzle/base-puzzle.compo
     EditLetterComponent,
     HomeComponent,
     MineSweeperComponent,
-    TileComponent,
+    MineSweeperTileComponent,
     TablePageComponent,
     TopMenuComponent,
     NotificationModalComponent,
@@ -40,7 +40,7 @@ import { BasePuzzleComponent } from '../components/base-puzzle/base-puzzle.compo
     EditLetterComponent,
     HomeComponent,
     MineSweeperComponent,
-    TileComponent,
+    MineSweeperTileComponent,
     TablePageComponent,
     TopMenuComponent,
   ],

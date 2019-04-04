@@ -1,15 +1,15 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { LevelDetected, MinesweeperTile } from 'src/app/model/minesweeper-tile';
+import { LevelDetected, MineSweeperTile } from 'src/app/model/minesweeper-tile';
 
 @Component({
-  selector: 'ed-tile',
-  templateUrl: './tile.component.html',
-  styleUrls: ['./tile.component.scss'],
+  selector: 'minesweeper-tile',
+  templateUrl: './minesweeper-tile.component.html',
+  styleUrls: ['./minesweeper-tile.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TileComponent implements OnInit {
+export class MineSweeperTileComponent implements OnInit {
 
-  @Input('tile') tile: MinesweeperTile;
+  @Input('tile') tile: MineSweeperTile;
 
   public levelDetected = LevelDetected
 
