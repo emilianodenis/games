@@ -31,6 +31,7 @@ export class BaseTimerComponent implements OnDestroy, OnInit {
     this.cd.detach();
 
     this.interval = setInterval(() => this.adjustTime(), 1000);
+    this.cd.detectChanges();
   }
 
   private adjustTime(): void {
