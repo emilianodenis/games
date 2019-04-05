@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/internal/Observable';
 
 @Component({
   selector: 'base-timer',
@@ -8,16 +7,11 @@ import { Observable } from 'rxjs/internal/Observable';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BaseTimerComponent implements OnDestroy, OnInit {
-
-  //public math = Math;
-
   public seconds: number = 0;
   public minutes: number = 0;
   public hours: number = 0;
 
   public totalTime: number = 0;
-
-  //public timer$: Observable<number>;
 
   private interval: any;
 

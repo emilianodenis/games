@@ -1,8 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material';
-import { Observable } from 'rxjs/internal/Observable';
-import { timer } from 'rxjs/internal/observable/timer';
 import { debounceTime } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/components/base-component';
 import { LevelDetected, MineSweeperTile } from 'src/app/model/minesweeper-tile';
@@ -83,10 +81,6 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
 
     private static MineSweeperTimerKey = "MineSweeperTimerKey";
 
-    // public math = Math;
-
-    // public timer$: Observable<number>;
-
     public gameInProgress: boolean = false;
 
     private dateStarted: Date;
@@ -108,7 +102,7 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
         this.customOption,
     ];
 
-    public currentOption: AllowedOptions;// = this.easyOption;
+    public currentOption: AllowedOptions;
 
     public form: FormGroup;
 
@@ -167,19 +161,16 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
     }
 
     public trackByTileId(index: number, tile: MineSweeperTile): number {
-        if (tile == undefined)
-            return index;
+        return index;
+        // if (tile == undefined)
+        //     return index;
 
-        return tile.id;
+        // return tile.id;
     }
 
     public refresh(): void {
         this.handleLevelChange(this.selectOptionCtrl.value)
     }
-
-    // private resetTimer(): void {
-    //     this.timer$ = timer(0, 1000);
-    // }
 
     private stopTimer(): void {
         this.gameInProgress = false;
@@ -302,7 +293,6 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
             return;
         } else if (this.checkWiningConditions()) {
             this.stopGame();
-            this.revealBombs();
             let content = `you won boy! It only took you ${Math.floor((this.dateEnded.getTime() - this.dateStarted.getTime()) / 1000)} seconds`;
             let config = NotificationModalComponent.getDefaultConfig("Congratulation", content);
             this.showGameEnd(true, config);
@@ -333,10 +323,6 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
         }
     }
 
-    private revealBombs(): void {
-        this.tilesWithBombs.forEach(t => this.setTile(t.unHide()));
-    }
-
     private checkWiningConditions(): boolean {
         if (this.tilesEmpty.some(t => t.isRevealed == false))
             return false;
@@ -352,7 +338,6 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
 
     private generateGame(tile: MineSweeperTile): void {
         this.gameInProgress = true;
-        // this.resetTimer();
         this.tilesWithBombs = [];
         this.tilesSuspected = [];
         this.tilesEmpty = [];
@@ -362,7 +347,6 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
 
     private stopGame(): void {
         this.dateEnded = new Date();
-        // this.resetTimer();
         this.gameInProgress = false;
     }
 
