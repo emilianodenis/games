@@ -9,6 +9,7 @@ import { MineSweeperComponent } from 'src/app/components/mine-sweeper/mine-sweep
 import { TablePageComponent } from 'src/app/components/table-page/table-page.component';
 import { TopMenuComponent } from 'src/app/components/top-menu/top-menu.component';
 import { AppMaterialModule } from 'src/app/module/app.material.module';
+import { BasePuzzleTileComponent } from '../components/base-puzzle/base-puzzle-tile/base-puzzle-tile.component';
 import { BasePuzzleComponent } from '../components/base-puzzle/base-puzzle.component';
 import { BaseTimerComponent } from '../components/base-timer/base-timer.component';
 import { MineSweeperTileComponent } from '../components/mine-sweeper/mine-sweeper-tile/minesweeper-tile.component';
@@ -18,16 +19,17 @@ import { NotificationModalComponent } from '../components/notification-modal/not
   declarations: [
     AboutComponent,
     BasePuzzleComponent,
+    BasePuzzleTileComponent,
+    BaseTimerComponent,
     CardListComponent,
     CardPageComponent,
     EditLetterComponent,
     HomeComponent,
     MineSweeperComponent,
     MineSweeperTileComponent,
+    NotificationModalComponent,
     TablePageComponent,
     TopMenuComponent,
-    NotificationModalComponent,
-    BaseTimerComponent,
   ],
   imports: [
     AppMaterialModule,

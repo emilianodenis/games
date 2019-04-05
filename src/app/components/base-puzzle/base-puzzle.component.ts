@@ -1,19 +1,20 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { Observable } from 'rxjs/internal/Observable';
 import { timer } from 'rxjs/internal/observable/timer';
 import { debounceTime } from 'rxjs/internal/operators/debounceTime';
+import { take } from 'rxjs/internal/operators/take';
 import { BaseTile } from 'src/app/model/base-tile';
 import { AppBaseService } from 'src/app/service/app-base.service';
 import { BaseComponent } from '../base-component';
 import { AllowedOptions } from '../mine-sweeper/mine-sweeper.component';
-import { take } from 'rxjs/internal/operators/take';
 
 @Component({
   selector: 'ed-base-puzzle',
   templateUrl: './base-puzzle.component.html',
-  styleUrls: ['./base-puzzle.component.scss']
+  styleUrls: ['./base-puzzle.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BasePuzzleComponent extends BaseComponent implements OnInit {
 

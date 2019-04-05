@@ -161,6 +161,7 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
     }
 
     public trackByTileId(index: number, tile: MineSweeperTile): number {
+        //console.log("track by " + index);
         return index;
         // if (tile == undefined)
         //     return index;
