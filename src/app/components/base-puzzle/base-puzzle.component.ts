@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material';
-import { Observable } from 'rxjs/internal/Observable';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 import { timer } from 'rxjs/internal/observable/timer';
 import { debounceTime } from 'rxjs/internal/operators/debounceTime';
 import { take } from 'rxjs/internal/operators/take';
@@ -9,6 +8,8 @@ import { BaseTile } from 'src/app/model/base-tile';
 import { AppBaseService } from 'src/app/service/app-base.service';
 import { BaseComponent } from '../base-component';
 import { AllowedOptions } from '../mine-sweeper/mine-sweeper.component';
+import { finalize } from 'rxjs/internal/operators/finalize';
+import { NotificationModalComponent } from '../notification-modal/notification-modal.component';
 
 @Component({
   selector: 'ed-base-puzzle',
@@ -22,12 +23,12 @@ export class BasePuzzleComponent extends BaseComponent implements OnInit {
 
   public math = Math;
 
-  public timer$: Observable<number>;
-
   public gameInProgress: boolean = false;
 
   private dateStarted: Date;
   private dateEnded: Date;
+
+  private isShuffling: boolean = false
 
   private easyOption: AllowedOptions = "Easy";
   private beginnerOption: AllowedOptions = "Beginner";
@@ -60,7 +61,7 @@ export class BasePuzzleComponent extends BaseComponent implements OnInit {
   public tiles: Array<BaseTile>;
   public clickableTiles: Array<BaseTile> = [];
 
-  public seconds: number = 0;
+  public clickCount: number = 0;
 
   public get selectOptionCtrl(): FormControl {
     return <FormControl>this.form.get("selectOptionCtrl");
@@ -100,22 +101,16 @@ export class BasePuzzleComponent extends BaseComponent implements OnInit {
       );
   }
 
-  // public trackByTileId(index: number, tile: MinesweeperTile): number {
-  //   if (tile == undefined)
-  //     return index;
-
-  //   return tile.id;
-  // }
+  public trackByTileId(index: number, tile: BaseTile): number {
+    return index;
+  }
 
 
   public refresh(): void {
     this.handleLevelChange(this.selectOptionCtrl.value)
   }
-  private resetTimer(): void {
-    this.timer$ = timer(0, 1000);
-  }
 
-  private stopTimer(): void {
+  private stopGame(): void {
     this.gameInProgress = false;
   }
 
@@ -123,7 +118,10 @@ export class BasePuzzleComponent extends BaseComponent implements OnInit {
     if (level == undefined)
       return;
 
-    this.stopTimer();
+    this.isShuffling = true;
+    this.clickCount = 0;
+
+    this.stopGame();
 
     if (level == this.easyOption) {
       this.setSize(3, 3, 120);
@@ -196,16 +194,44 @@ export class BasePuzzleComponent extends BaseComponent implements OnInit {
       evt.stopPropagation();
     }
 
+    if (this.isShuffling == true || tile == undefined)
+      return false;
+
     if (tile == this.emptyTile)
       return false;
 
     if (this.clickableTiles.indexOf(tile) < 0)
       return false;
 
+    if (this.gameInProgress == false) {
+      this.dateStarted = new Date();
+      this.gameInProgress = true;
+    }
+
+    this.clickCount++;
+
     this.swapTiles(tile, this.emptyTile);
+
+    if (this.checkWinningCondition() == true) {
+      this.stopGame();
+      this.dateEnded = new Date();
+      let content = `you won boy! It only took you ${Math.floor((this.dateEnded.getTime() - this.dateStarted.getTime()) / 1000)} seconds and ${this.clickCount} clicks!`;
+      let config = NotificationModalComponent.getDefaultConfig("Congratulation", content);
+      this.showGameEnd(true, config);
+    }
+
     this.calculateClickableTiles();
 
     return false
+  }
+
+  private checkWinningCondition(): boolean {
+    //for base puzzle, tiles start at id 0. Last tile is the empty tile
+    for (let i = 0; i < this.tiles.length - 1; i++) {
+      if (i + 1 != this.tiles[i].id)
+        return false;
+    }
+    return true;
   }
 
   private calculateClickableTiles(): void {
@@ -257,14 +283,22 @@ export class BasePuzzleComponent extends BaseComponent implements OnInit {
   }
 
   private shuffleTiles(shuffleCount: number): void {
+    this.isShuffling = true;
     timer(0, Math.floor(5000 / shuffleCount))
-      .pipe(take(shuffleCount))
+      .pipe(
+        take(shuffleCount),
+        finalize(() => this.isShuffling = false)
+      )
       .subscribe(() => {
         let tileIdx = Math.floor(Math.random() * this.clickableTiles.length);
         this.swapTiles(this.emptyTile, this.clickableTiles[tileIdx]);
         this.calculateClickableTiles();
         this.cd.detectChanges();
       });
+  }
+
+  private showGameEnd(isSuccessful: boolean, config: MatDialogConfig): void {
+    this.dialog.open(NotificationModalComponent, config);
   }
 
 }

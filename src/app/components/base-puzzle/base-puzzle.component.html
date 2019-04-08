@@ -3,7 +3,7 @@
     <button mat-icon-button (click)="refresh()">
       <mat-icon>refresh</mat-icon>
     </button>
-    <span *ngFor="let t of clickableTiles" style="color: gray;">{{t.id}} ;</span>
+    <!-- <span *ngFor="let t of clickableTiles" style="color: gray;">{{t.id}} ;</span> -->
   </div>
 
   <mat-form-field class="center">
@@ -19,8 +19,7 @@
   <div class="side side-right">
     <ng-container *ngIf="gameInProgress">
       <div class="left-spacer">
-        {{ math.floor((timer$ | async) / 60 / 24) | number: '2.0-0'}}:{{ math.floor((timer$ | async) / 60) | number:
-      '2.0-0'}}:{{((timer$ | async) % 60) | number: '2.0-0' }}
+        <base-timer></base-timer>
       </div>
     </ng-container>
   </div>
@@ -31,7 +30,7 @@
     <mat-grid-list [cols]="nbCols" [gutterSize]="0" [rowHeight]="rowHeight" class="fade-in">
 
       <mat-grid-tile *ngFor="let t of tiles" (click)="clickTile(t)" (contextmenu)="clickTile(t, $event)" [class.empty-tile]="t === emptyTile" matRipple>
-        {{t?.id}}
+        <base-puzzle-tile [tile]="t"></base-puzzle-tile>
       </mat-grid-tile>
 
     </mat-grid-list>

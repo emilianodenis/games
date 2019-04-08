@@ -116,8 +116,6 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
 
     public tiles: Array<MineSweeperTile>;
 
-    public seconds: number = 0;
-
     public tilesWithBombs: Array<MineSweeperTile>;
     public tilesSuspected: Array<MineSweeperTile>;
     public tilesEmpty: Array<MineSweeperTile>;
@@ -163,10 +161,6 @@ export class MineSweeperComponent extends BaseComponent implements OnInit {
     public trackByTileId(index: number, tile: MineSweeperTile): number {
         //console.log("track by " + index);
         return index;
-        // if (tile == undefined)
-        //     return index;
-
-        // return tile.id;
     }
 
     public refresh(): void {

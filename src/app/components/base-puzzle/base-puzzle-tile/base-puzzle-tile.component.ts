@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, Input } from '@angular/core';
+import { BaseTile } from 'src/app/model/base-tile';
 
 @Component({
   selector: 'base-puzzle-tile',
@@ -7,6 +8,8 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BasePuzzleTileComponent implements OnInit {
+
+  @Input() tile: BaseTile;
 
   constructor() { }
 
