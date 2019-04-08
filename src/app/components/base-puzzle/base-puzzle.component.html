@@ -29,7 +29,8 @@
   <div [style.width.px]="gridWidth" [style.height.px]="gridHeight">
     <mat-grid-list [cols]="nbCols" [gutterSize]="0" [rowHeight]="rowHeight" class="fade-in">
 
-      <mat-grid-tile *ngFor="let t of tiles" (click)="clickTile(t)" (contextmenu)="clickTile(t, $event)" [class.empty-tile]="t === emptyTile" matRipple>
+      <mat-grid-tile *ngFor="let t of tiles; trackBy: trackByTileId" (click)="clickTile(t)" (contextmenu)="clickTile(t, $event)"
+        [class.empty-tile]="t === emptyTile" matRipple>
         <base-puzzle-tile [tile]="t"></base-puzzle-tile>
       </mat-grid-tile>
 

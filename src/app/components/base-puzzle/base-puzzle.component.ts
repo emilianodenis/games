@@ -102,6 +102,8 @@ export class BasePuzzleComponent extends BaseComponent implements OnInit {
   }
 
   public trackByTileId(index: number, tile: BaseTile): number {
+    // if (tile != undefined)
+    //   return tile.id;
     return index;
   }
 
