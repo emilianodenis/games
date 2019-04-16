@@ -37,7 +37,7 @@ export class MineSweeperTile {
     constructor(
         private readonly _id: number,
         private readonly _hasBomb: boolean = false,
-        private readonly _currentDetectionLevel: number = LevelDetected.none,
+        private readonly _currentDetectionLevel: LevelDetected = LevelDetected.none,
         private readonly _isRevealed: boolean = false,
         private readonly _surroundingBombCount: number = 0,
     ) {
