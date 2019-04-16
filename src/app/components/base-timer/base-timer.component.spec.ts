@@ -2,15 +2,15 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BaseTimerComponent } from './base-timer.component';
 
-describe('BaseTimerComponent', () => {
+xdescribe('BaseTimerComponent', () => {
   let component: BaseTimerComponent;
   let fixture: ComponentFixture<BaseTimerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BaseTimerComponent ]
+      declarations: [BaseTimerComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

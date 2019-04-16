@@ -1,4 +1,5 @@
 import { ILetter } from "src/app/model/iLetter";
+import { LetterType } from "./letter-type";
 
 export class BaseLetter implements ILetter {
   id: number;

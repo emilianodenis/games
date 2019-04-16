@@ -2,15 +2,15 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TablePageComponent } from './table-page.component';
 
-describe('TablePageComponent', () => {
+xdescribe('TablePageComponent', () => {
   let component: TablePageComponent;
   let fixture: ComponentFixture<TablePageComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TablePageComponent ]
+      declarations: [TablePageComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

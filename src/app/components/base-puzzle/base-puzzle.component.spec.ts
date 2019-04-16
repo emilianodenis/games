@@ -2,15 +2,15 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BasePuzzleComponent } from './base-puzzle.component';
 
-describe('BasePuzzleComponent', () => {
+xdescribe('BasePuzzleComponent', () => {
   let component: BasePuzzleComponent;
   let fixture: ComponentFixture<BasePuzzleComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BasePuzzleComponent ]
+      declarations: [BasePuzzleComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
