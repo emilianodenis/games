@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BasePuzzleTileComponent } from './base-puzzle-tile.component';
 
-xdescribe('BasePuzzleTileComponent', () => {
+describe('BasePuzzleTileComponent', () => {
   let component: BasePuzzleTileComponent;
   let fixture: ComponentFixture<BasePuzzleTileComponent>;
 
